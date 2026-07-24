@@ -1,0 +1,66 @@
+{
+  "generatedAt": "2026-07-23T21:03:49Z",
+  "network": "testnet",
+  "participants": [
+    {
+      "label": "pilot-1",
+      "address": "GBQ7AQCRYN74YN2R7XAJZRN2U5HCI4DSAR7KKRMQM4ADOWESNJROV4NB",
+      "network": "testnet"
+    },
+    {
+      "label": "pilot-2",
+      "address": "GCRYGXJGKFQR7YE3ONRJKKONLPMYFY6XVVIZ43LU2Z6JQSKGYNSV3STO",
+      "network": "testnet"
+    },
+    {
+      "label": "pilot-3",
+      "address": "GBWJU2J7MTWCGWOE5L7NIJY3LVDWJTQAFUQA63XC4OTMQDJ5RFJHKMA3",
+      "network": "testnet"
+    },
+    {
+      "label": "pilot-4",
+      "address": "GABQY5LHL5MLWDWPS5VCKNVTT2KR3F5X6RFH65XKDD24CH65FZ2FJEP4",
+      "network": "testnet"
+    },
+    {
+      "label": "pilot-5",
+      "address": "GDLJVNC4WXHR5TF4WIWY6EW33HPNKREBNJNHZY6KZGPAMGSRV3R5LY43",
+      "network": "testnet"
+    },
+    {
+      "label": "pilot-6",
+      "address": "GABVRBXM53SSODFVHKPTFGW6Q2WAJDEHRF44CQNDN77VA23EPQT4TSSY",
+      "network": "testnet"
+    },
+    {
+      "label": "pilot-7",
+      "address": "GA4WLS5OFLZPWKASR6SEXOD5QRDCVMB72KLMJP4LY6TKY3ULNJZ4ICOP",
+      "network": "testnet"
+    },
+    {
+      "label": "pilot-8",
+      "address": "GBNRP7HM3H7D2ET77BBKGK4GUMAW7JR3RRKYZ2GGCKU3J6OOAHNZ52I6",
+      "network": "testnet"
+    },
+    {
+      "label": "pilot-9",
+      "address": "GD3L7WGE4JZVEF7X7FUPSSZ2PIZI3QNVSTAD4I6BGT27K6TMXUA2KV6M",
+      "network": "testnet"
+    },
+    {
+      "label": "pilot-10",
+      "address": "GDXW6KLCGMO6BWZ66AR3GV6PXEMEMQSGXNWC3AOV76EHZ7I25G2DUKFY",
+      "network": "testnet"
+    },
+    {
+      "label": "pilot-11",
+      "address": "GCFIMT6PZJGSTQ6OYNSYY2VU4VMKBWQX4O345D4NVEX2DOIDUQSIUPTJ",
+      "network": "testnet"
+    },
+    {
+      "label": "pilot-12",
+      "address": "GCVOSA6HBQYUZTHYAPFPOBHGPRUI4GCG5N55XYWWMVMFYTUJ45HTOVPW",
+      "network": "testnet"
+    }
+  ]
+}
