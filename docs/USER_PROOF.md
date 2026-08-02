@@ -25,7 +25,25 @@ independently verified with the explorer links.
 
 ## Per-wallet detail
 
-Each wallet below performed at least four signed transactions: friendbot
+## Manually-Signed Wallet Activity (via Freighter)
+
+These 10 wallets were funded and operated by the builder, with each transaction 
+individually approved through the Freighter wallet extensions.
+
+| # | Wallet | Action | Amount | To | Date |
+|---|---|---:|---:|---|---|
+| 1 | [`GC4R7D…LMWRRQ`](https://stellar.expert/explorer/testnet/account/GC4R7DAV6A2CAVCDVD4J3SWT26JFPIQKLV643DEABDJH242ZJMLMWRRQ) | route | 200.00 rUSDC | GAPC…S47L | 2026-08-02 15:48:37 |
+| 2 | [`GDC2RY…FZJI5X`](https://stellar.expert/explorer/testnet/account/GDC2RYWLBQY5NDGSPVA6OLYZKNF7SOLRJRTH7AWZGZ2SXMUPNTFZJI5X) | route | 197.00 rUSDC | GAPC…S47L | 2026-07-30 23:14:31 |
+| 3 | [`GCE33A…YCNLLE`](https://stellar.expert/explorer/testnet/account/GCE33AXGEBOV4ZWY45ICQDSUHFH5UHC74IKVEXRBJNAE3KCZASYCNLLE) | route | 30.00 rUSDC | GAHP…2WYZ | 2026-07-30 23:16:42 |
+| 4 | [`GCRFDT…7AKIF7`](https://stellar.expert/explorer/testnet/account/GCRFDTLGG377MYPFMZMWYVQTW7ESORCS524YRLAHDWP4VIKGSP7AKIF7) | faucet claim | — | — | 2026-07-30 23:20:07 |
+| 5 | [`GCDSPB…TBZKSL`](https://stellar.expert/explorer/testnet/account/GCDSPBZVVL6EYARHMWONVBGQSJ7I4ZXBKSIHQTYWPINL5ZQKZPTBZKSL) | route | 700.00 rUSDC | GCIY…CP7O | 2026-08-02 15:44:52 |
+| 6 | [`GCTG5I…42AWBM`](https://stellar.expert/explorer/testnet/account/GCTG5ILZECJGE5AFHNA6DGAVK66KB6I76WZTLWIQ57FD54M5TY42AWBM) | faucet claim | — | — | 2026-08-01 09:00:38 |
+| 7 | [`GCIYZP…UWCP7O`](https://stellar.expert/explorer/testnet/account/GCIYZPVK4CFUX4CK766FTQGNEETNGQZEAPTFBZSN4GRPTQ5H6HUWCP7O) | route | 100.00 rUSDC | GAPC…S47L | 2026-08-02 15:46:32 |
+| 8 | [`GAPC…S47L`](https://stellar.expert/explorer/testnet/account/GAPCMMWLKKYEFBKLNEIIXJL52C24MPNVBOVTYFBTSBEIFRYEIPOYS47L) | route | 100.00 rUSDC | GDBB…IL7U | 2026-07-30 23:18:02 |
+| 9 | [`GAPB…LD76`](https://stellar.expert/explorer/testnet/account/GAPBKFSLUNBM74MZ7BLXHAPEUOLDCG74X7B2KDFYVITMKCZ6PCURLD76) | route | 20.00 rUSDC | GAPC…S47L | 2026-08-02 15:47:27 |
+| 10 | [`GAHP…2WYZ`](https://stellar.expert/explorer/testnet/account/GAHPFX2NUTG63AWK4T4HZAB5O656F2ZEIXIXYPUQOEUWR5I7MPGU2WYZ) | route | 10.00 rUSDC | GAPC…S47L | 2026-08-02 15:48:07 |
+
+<!-- Each wallet below performed at least four signed transactions: friendbot
 funding, a faucet claim, an auto-save rule update, and an outbound remittance.
 
 | # | Wallet | Received | Auto-saved | In vault | Transfers |
@@ -41,7 +59,7 @@ funding, a faucet claim, an auto-save rule update, and an outbound remittance.
 | 9 | [`GD3L7WGE…A2KV6M`](https://stellar.expert/explorer/testnet/account/GD3L7WGE4JZVEF7X7FUPSSZ2PIZI3QNVSTAD4I6BGT27K6TMXUA2KV6M) | 60.00 | 12.00 | 12.00 | 1 |
 | 10 | [`GDXW6KLC…2DUKFY`](https://stellar.expert/explorer/testnet/account/GDXW6KLCGMO6BWZ66AR3GV6PXEMEMQSGXNWC3AOV76EHZ7I25G2DUKFY) | 45.00 | 18.00 | 18.00 | 1 |
 | 11 | [`GCFIMT6P…SIUPTJ`](https://stellar.expert/explorer/testnet/account/GCFIMT6PZJGSTQ6OYNSYY2VU4VMKBWQX4O345D4NVEX2DOIDUQSIUPTJ) | 50.00 | 10.00 | 10.00 | 1 |
-| 12 | [`GCVOSA6H…HTOVPW`](https://stellar.expert/explorer/testnet/account/GCVOSA6HBQYUZTHYAPFPOBHGPRUI4GCG5N55XYWWMVMFYTUJ45HTOVPW) | 28.00 | 8.40 | 8.40 | 1 |
+| 12 | [`GCVOSA6H…HTOVPW`](https://stellar.expert/explorer/testnet/account/GCVOSA6HBQYUZTHYAPFPOBHGPRUI4GCG5N55XYWWMVMFYTUJ45HTOVPW) | 28.00 | 8.40 | 8.40 | 1 | -->
 
 ## How to verify
 
