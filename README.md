@@ -53,7 +53,7 @@ intercepts the payment in-flight.
 
 | | |
 |---|---|
-| **App** | _deploy to Vercel and add the URL here_ |
+| **App** | https://remit-stream.vercel.app/ |
 | **Network** | Stellar Testnet |
 | **Demo video** | _add link_ |
 
