@@ -55,7 +55,7 @@ intercepts the payment in-flight.
 |---|---|
 | **App** | https://remit-stream.vercel.app/ |
 | **Network** | Stellar Testnet |
-| **Demo video** | _add link_ |
+| **Demo video** | https://www.loom.com/share/3096850b52a14db092b3ef6c6c4e627c |
 
 > Need test funds? Connect a wallet and hit **Get test rUSDC** — the token
 > contract has a built-in faucet, so no trustline setup is required.
@@ -195,7 +195,6 @@ To point the app at your own deployment, set `NEXT_PUBLIC_ROUTER_ID`,
 ### Onboard a pilot cohort
 
 ```bash
-./scripts/onboard.sh 12 testnet   # real on-chain txs per wallet
 node scripts/proof.mjs            # regenerate docs/USER_PROOF.md
 ```
 
