@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { DarkModeToggle } from "./DarkModeToggle";
 import { WalletButton } from "./WalletButton";
 
 const LINKS = [
@@ -49,6 +50,7 @@ export function Nav() {
         <div className="flex items-center gap-2">
           <div className="hidden sm:block">
             <WalletButton />
+            <DarkModeToggle />
           </div>
           <button
             className="btn-ghost px-2.5 py-2 md:hidden"
