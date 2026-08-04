@@ -225,6 +225,10 @@ cd contracts && cargo test
   recurring remittances, savings goals ("school fees"), and a small credit line
   against vault balance.
 
+## User Reviews
+
+[User reviews spreadsheet](https://docs.google.com/spreadsheets/d/1qWlgaFwnT-XQyprBxDzJ1d5r18-J3qXOimasJRg_o3U/edit?resourcekey=&gid=146620607#gid=146620607)
+
 ## License
 
 MIT
