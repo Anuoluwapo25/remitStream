@@ -168,27 +168,39 @@ export function InsightsPanel() {
         <SectionTitle hint="last 7 days">Daily volume</SectionTitle>
         <div className="card p-5">
           {chain && chain.daily.some((d) => BigInt(d.volume) > 0n) ? (
-            <div className="flex h-40 items-end gap-2">
+            <div className="flex items-end gap-2">
               {chain.daily.map((d) => {
                 const volume = BigInt(d.volume);
                 const height =
                   volume > 0n
-                    ? Math.max(6, Number((volume * 130n) / maxDaily))
+                    ? Math.max(8, Number((volume * 120n) / maxDaily))
                     : 2;
                 return (
                   <div
                     key={d.date}
                     className="flex flex-1 flex-col items-center gap-2"
                   >
-                    <div
-                      className={`w-full rounded-t-md transition-all ${
-                        volume > 0n
-                          ? "bg-gradient-to-t from-brand-600 to-brand-400"
-                          : "bg-white/5"
+                    <span
+                      className={`text-[10px] tabular-nums ${
+                        volume > 0n ? "text-slate-300" : "text-transparent"
                       }`}
-                      style={{ height: `${height}px` }}
-                      title={`${fromBaseUnits(volume)} rUSDC · ${d.count} transfer(s)`}
-                    />
+                    >
+                      {volume > 0n ? fromBaseUnits(volume) : "0"}
+                    </span>
+                    <div
+                      className="flex w-full justify-center"
+                      style={{ height: "120px", alignItems: "flex-end" }}
+                    >
+                      <div
+                        className={`w-full max-w-[44px] rounded-t-md transition-all ${
+                          volume > 0n
+                            ? "bg-gradient-to-t from-brand-600 to-brand-400"
+                            : "bg-white/5"
+                        }`}
+                        style={{ height: `${height}px` }}
+                        title={`${fromBaseUnits(volume)} rUSDC · ${d.count} transfer(s)`}
+                      />
+                    </div>
                     <span className="text-[10px] text-slate-500">
                       {d.date.slice(5)}
                     </span>
