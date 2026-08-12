@@ -229,8 +229,10 @@ export function GettingStarted({ data }: { data: AccountData | null }) {
 
   const doneCount = tasks.filter((t) => t.done).length;
 
-  // Nothing left to nag about, or the user asked it to go away.
-  if (hidden || doneCount === tasks.length) return null;
+  // Nothing left to nag about, or the user asked it to go away. Dismissal only
+  // applies once connected: while disconnected this card is the send panel's
+  // only connect prompt, so hiding it would leave nothing to click.
+  if ((hidden && address) || doneCount === tasks.length) return null;
 
   const dismiss = () => {
     try {
@@ -254,12 +256,14 @@ export function GettingStarted({ data }: { data: AccountData | null }) {
             {next ? ` · next: ${next.label.toLowerCase()}` : ""}
           </p>
         </div>
-        <button
-          onClick={dismiss}
-          className="text-xs text-slate-500 hover:text-slate-300"
-        >
-          Hide
-        </button>
+        {address && (
+          <button
+            onClick={dismiss}
+            className="text-xs text-slate-500 hover:text-slate-300"
+          >
+            Hide
+          </button>
+        )}
       </div>
 
       <div

@@ -7,6 +7,7 @@ import { AppErrorBoundary } from "@/components/ErrorBoundary";
 import { Nav } from "@/components/Nav";
 import { FeedbackWidget } from "@/components/FeedbackWidget";
 import { WelcomeGuide } from "@/components/Onboarding";
+import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "RemitStream — Cross-border remittances with auto-save & yield",
@@ -39,9 +40,10 @@ export default function RootLayout({
           <ToastProvider>
             <WalletProvider>
               <Nav />
-              <main className="mx-auto w-full max-w-5xl px-4 pb-24 pt-6 sm:px-6">
+              <main className="mx-auto w-full max-w-6xl px-4 pb-16 pt-6 sm:px-6">
                 {children}
               </main>
+              <Footer />
               <FeedbackWidget />
               <WelcomeGuide />
             </WalletProvider>

@@ -107,21 +107,10 @@ export function SendPanel() {
     }
   }
 
-  if (!address) {
-    return (
-      <div className="space-y-4">
-        <div className="card p-6 text-center">
-          <p className="mb-4 text-slate-300">
-            Connect a Stellar wallet to send a remittance.
-          </p>
-          <button className="btn-primary mx-auto" onClick={() => connect()}>
-            Connect wallet
-          </button>
-        </div>
-        <GettingStarted data={null} />
-      </div>
-    );
-  }
+  // Disconnected, the checklist *is* the connect prompt — it already carries
+  // the button and explains what happens next. A separate connect card above it
+  // put two identical primary buttons on top of each other.
+  if (!address) return <GettingStarted data={null} />;
 
   return (
     <div className="space-y-4">

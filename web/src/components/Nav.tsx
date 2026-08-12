@@ -19,7 +19,7 @@ export function Nav() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-ink-900/80 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-3 sm:px-6">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
           <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-lg font-black">
             ₪
@@ -49,7 +49,9 @@ export function Nav() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <div className="hidden sm:block">
+          {/* These two were stacked in a block container, so the theme toggle
+              hung below the wallet button and pushed the header out of line. */}
+          <div className="hidden items-center gap-2 sm:flex">
             <WalletButton />
             <DarkModeToggle />
           </div>
