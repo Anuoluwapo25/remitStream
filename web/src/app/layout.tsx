@@ -6,6 +6,7 @@ import { ToastProvider } from "@/components/Toast";
 import { AppErrorBoundary } from "@/components/ErrorBoundary";
 import { Nav } from "@/components/Nav";
 import { FeedbackWidget } from "@/components/FeedbackWidget";
+import { WelcomeGuide } from "@/components/Onboarding";
 
 export const metadata: Metadata = {
   title: "RemitStream — Cross-border remittances with auto-save & yield",
@@ -42,6 +43,7 @@ export default function RootLayout({
                 {children}
               </main>
               <FeedbackWidget />
+              <WelcomeGuide />
             </WalletProvider>
           </ToastProvider>
         </AppErrorBoundary>

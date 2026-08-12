@@ -11,6 +11,7 @@ import { fromBaseUnits, toBaseUnits, money, shortAddress } from "@/lib/format";
 import { track } from "@/lib/analytics";
 import { useToast } from "./Toast";
 import { FaucetButton } from "./FaucetButton";
+import { GettingStarted } from "./Onboarding";
 import { Skeleton, TxLink } from "./ui";
 
 const G_ADDR = /^G[A-Z2-7]{55}$/;
@@ -108,19 +109,24 @@ export function SendPanel() {
 
   if (!address) {
     return (
-      <div className="card p-6 text-center">
-        <p className="mb-4 text-slate-300">
-          Connect a Stellar wallet to send a remittance.
-        </p>
-        <button className="btn-primary mx-auto" onClick={() => connect()}>
-          Connect wallet
-        </button>
+      <div className="space-y-4">
+        <div className="card p-6 text-center">
+          <p className="mb-4 text-slate-300">
+            Connect a Stellar wallet to send a remittance.
+          </p>
+          <button className="btn-primary mx-auto" onClick={() => connect()}>
+            Connect wallet
+          </button>
+        </div>
+        <GettingStarted data={null} />
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
+      <GettingStarted data={data} />
+
       {/* Balance strip */}
       <div className="card flex items-center justify-between p-4">
         <div>
