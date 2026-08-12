@@ -22,9 +22,9 @@ export function FaucetButton({
     if (!signer) return;
     setLoading(true);
     try {
-      await claimFaucet(signer);
-      track("faucet_claimed");
-      toast.success("1,000 rUSDC added to your wallet");
+      const { txHash } = await claimFaucet(signer);
+      track("faucet_claimed", { txHash });
+      toast.success("1,000 rUSDC added to your wallet", txHash);
       onDone?.();
     } catch (e) {
       toast.error(humanizeError(e));

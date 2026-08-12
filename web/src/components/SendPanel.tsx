@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useWallet } from "@/lib/wallet";
 import { useAccountData } from "@/lib/hooks";
 import { quoteSplit, type Split } from "@/lib/reads";
@@ -8,10 +9,9 @@ import { sendRemittance } from "@/lib/actions";
 import { humanizeError } from "@/lib/contracts";
 import { fromBaseUnits, toBaseUnits, money, shortAddress } from "@/lib/format";
 import { track } from "@/lib/analytics";
-import { explorerTx } from "@/lib/config";
 import { useToast } from "./Toast";
 import { FaucetButton } from "./FaucetButton";
-import { Skeleton } from "./ui";
+import { Skeleton, TxLink } from "./ui";
 
 const G_ADDR = /^G[A-Z2-7]{55}$/;
 
@@ -25,7 +25,12 @@ export function SendPanel() {
   const [quote, setQuote] = useState<Split | null>(null);
   const [quoting, setQuoting] = useState(false);
   const [sending, setSending] = useState(false);
-  const [lastResult, setLastResult] = useState<{ split: Split; recipient: string } | null>(null);
+  const [lastResult, setLastResult] = useState<{
+    split: Split;
+    recipient: string;
+    amount: bigint;
+    txHash: string | null;
+  } | null>(null);
   const quoteReq = useRef(0);
 
   const recipientValid = G_ADDR.test(recipient.trim());
@@ -71,16 +76,26 @@ export function SendPanel() {
     setSending(true);
     setLastResult(null);
     try {
-      const split = await sendRemittance(signer, recipient.trim(), amountUnits);
+      const { result: split, txHash } = await sendRemittance(
+        signer,
+        recipient.trim(),
+        amountUnits,
+      );
       track("remittance_sent", {
         sender: address,
         recipient: recipient.trim(),
         amount: Number(amountUnits),
         saved: Number(split.saved),
         payout: Number(split.payout),
+        txHash,
       });
-      setLastResult({ split, recipient: recipient.trim() });
-      toast.success(`Sent ${money(amountUnits)}`);
+      setLastResult({
+        split,
+        recipient: recipient.trim(),
+        amount: amountUnits,
+        txHash,
+      });
+      toast.success(`Sent ${money(amountUnits)}`, txHash);
       setAmount("");
       setQuote(null);
       refresh();
@@ -191,14 +206,16 @@ export function SendPanel() {
         </p>
       </div>
 
-      {/* Result */}
+      {/* Receipt */}
       {lastResult && (
         <div className="card animate-fade-in border-emerald-400/20 bg-emerald-500/5 p-5">
           <div className="flex items-center gap-2 text-emerald-300">
             <span className="grid h-6 w-6 place-items-center rounded-full bg-emerald-500/20 text-sm">
               ✓
             </span>
-            <span className="font-semibold">Remittance delivered</span>
+            <span className="font-semibold">
+              {money(lastResult.amount)} delivered
+            </span>
           </div>
           <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
             <div>
@@ -214,6 +231,19 @@ export function SendPanel() {
           </div>
           <div className="mt-2 text-xs text-slate-400">
             To {shortAddress(lastResult.recipient)}
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-white/10 pt-3">
+            <TxLink
+              hash={lastResult.txHash}
+              label="View this transaction on Stellar"
+            />
+            <Link
+              href="/history"
+              className="text-xs font-medium text-slate-400 hover:text-white"
+            >
+              All transactions →
+            </Link>
           </div>
         </div>
       )}

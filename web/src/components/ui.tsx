@@ -1,4 +1,38 @@
 import type { ReactNode } from "react";
+import { explorerTx } from "@/lib/config";
+import { shortAddress } from "@/lib/format";
+
+/**
+ * Link to a transaction on the block explorer.
+ *
+ * Shown wherever the app confirms that something settled. Pilot users had to
+ * go digging in their wallet extension to find a transfer on-chain, so every
+ * confirmation now carries its own receipt.
+ */
+export function TxLink({
+  hash,
+  label = "View on explorer",
+  className = "",
+}: {
+  hash: string | null | undefined;
+  label?: string;
+  className?: string;
+}) {
+  if (!hash) return null;
+  return (
+    <a
+      href={explorerTx(hash)}
+      target="_blank"
+      rel="noreferrer"
+      title={hash}
+      className={`inline-flex items-center gap-1.5 text-xs font-medium text-brand-300 hover:underline ${className}`}
+    >
+      {label}
+      <span className="font-mono text-slate-500">{shortAddress(hash, 6, 4)}</span>
+      <span aria-hidden>↗</span>
+    </a>
+  );
+}
 
 export function Stat({
   label,

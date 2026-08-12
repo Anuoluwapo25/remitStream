@@ -8,13 +8,20 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { TxLink } from "./ui";
 
 type ToastKind = "success" | "error" | "info";
-type Toast = { id: number; kind: ToastKind; message: string };
+type Toast = {
+  id: number;
+  kind: ToastKind;
+  message: string;
+  /** Transaction hash, rendered as an explorer link inside the toast. */
+  txHash?: string | null;
+};
 
 type ToastApi = {
-  toast: (message: string, kind?: ToastKind) => void;
-  success: (message: string) => void;
+  toast: (message: string, kind?: ToastKind, txHash?: string | null) => void;
+  success: (message: string, txHash?: string | null) => void;
   error: (message: string) => void;
 };
 
@@ -39,10 +46,11 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const toast = useCallback(
-    (message: string, kind: ToastKind = "info") => {
+    (message: string, kind: ToastKind = "info", txHash?: string | null) => {
       const id = Date.now() + Math.random();
-      setToasts((t) => [...t, { id, kind, message }]);
-      setTimeout(() => remove(id), 5000);
+      setToasts((t) => [...t, { id, kind, message, txHash }]);
+      // Toasts carrying a receipt linger, so there is time to click through.
+      setTimeout(() => remove(id), txHash ? 10_000 : 5_000);
     },
     [remove],
   );
@@ -50,7 +58,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const api = useMemo<ToastApi>(
     () => ({
       toast,
-      success: (m) => toast(m, "success"),
+      success: (m, txHash) => toast(m, "success", txHash),
       error: (m) => toast(m, "error"),
     }),
     [toast],
@@ -69,7 +77,14 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             <span className="mt-0.5 grid h-5 w-5 flex-none place-items-center rounded-full bg-white/10 text-xs font-bold">
               {ICONS[t.kind]}
             </span>
-            <span className="flex-1">{t.message}</span>
+            <span className="flex-1">
+              {t.message}
+              {t.txHash && (
+                <span className="mt-1 block">
+                  <TxLink hash={t.txHash} />
+                </span>
+              )}
+            </span>
             <button
               onClick={() => remove(t.id)}
               className="text-slate-400 hover:text-white"

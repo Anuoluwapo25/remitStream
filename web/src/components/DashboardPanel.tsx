@@ -141,9 +141,9 @@ function RuleConfig({
     if (!signer) return;
     setSaving(true);
     try {
-      await setRule(signer, bps);
-      track("rule_updated", { save_bps: bps });
-      toast.success(`Savings rule set to ${bpsToPercent(bps)}`);
+      const { txHash } = await setRule(signer, bps);
+      track("rule_updated", { save_bps: bps, txHash });
+      toast.success(`Savings rule set to ${bpsToPercent(bps)}`, txHash);
       onSaved();
     } catch (e) {
       toast.error(humanizeError(e));
@@ -232,14 +232,14 @@ function WithdrawCard({
     if (!signer) return;
     setBusy(true);
     try {
-      if (all) {
-        await withdrawAllSavings(signer);
-        track("savings_withdrawn", { all: true });
-      } else {
-        await withdrawSavings(signer, units);
-        track("savings_withdrawn", { amount: Number(units) });
-      }
-      toast.success("Withdrawn to your wallet");
+      const { txHash } = all
+        ? await withdrawAllSavings(signer)
+        : await withdrawSavings(signer, units);
+      track("savings_withdrawn", {
+        ...(all ? { all: true } : { amount: Number(units) }),
+        txHash,
+      });
+      toast.success("Withdrawn to your wallet", txHash);
       setAmount("");
       onDone();
     } catch (e) {
