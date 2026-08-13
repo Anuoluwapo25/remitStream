@@ -17,7 +17,7 @@ import { Skeleton, TxLink } from "./ui";
 const G_ADDR = /^G[A-Z2-7]{55}$/;
 
 export function SendPanel() {
-  const { address, signer, connect } = useWallet();
+  const { address, signer } = useWallet();
   const { data, loading, refresh } = useAccountData(address);
   const toast = useToast();
 
@@ -107,9 +107,9 @@ export function SendPanel() {
     }
   }
 
-  // Disconnected, the checklist *is* the connect prompt — it already carries
-  // the button and explains what happens next. A separate connect card above it
-  // put two identical primary buttons on top of each other.
+  // Disconnected, this column is just the checklist. The connect action lives
+  // in the hero and the header, so repeating it here made three identical
+  // buttons compete on one screen.
   if (!address) return <GettingStarted data={null} />;
 
   return (

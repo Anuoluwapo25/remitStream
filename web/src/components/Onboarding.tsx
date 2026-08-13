@@ -188,7 +188,7 @@ function useHasSent(address: string | null): boolean | null {
 type Task = { id: string; label: string; hint: string; done: boolean };
 
 export function GettingStarted({ data }: { data: AccountData | null }) {
-  const { address, connect } = useWallet();
+  const { address } = useWallet();
   const hasSent = useHasSent(address);
   const [hidden, setHidden] = useState(true);
 
@@ -230,8 +230,8 @@ export function GettingStarted({ data }: { data: AccountData | null }) {
   const doneCount = tasks.filter((t) => t.done).length;
 
   // Nothing left to nag about, or the user asked it to go away. Dismissal only
-  // applies once connected: while disconnected this card is the send panel's
-  // only connect prompt, so hiding it would leave nothing to click.
+  // applies once connected: while disconnected this card is the whole of the
+  // send panel, and hiding it would leave an empty column beside the hero.
   if ((hidden && address) || doneCount === tasks.length) return null;
 
   const dismiss = () => {
@@ -308,11 +308,6 @@ export function GettingStarted({ data }: { data: AccountData | null }) {
         ))}
       </ol>
 
-      {!address && (
-        <button onClick={() => connect()} className="btn-primary mt-4 w-full">
-          Connect wallet
-        </button>
-      )}
     </div>
   );
 }

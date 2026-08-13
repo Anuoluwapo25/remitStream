@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { SendPanel } from "@/components/SendPanel";
+import { HeroCta } from "@/components/HeroCta";
 import { SlidersIcon, SendIcon, VaultIcon } from "@/components/icons";
 
 const STEPS = [
@@ -45,9 +46,7 @@ export default function HomePage() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-            <Link href="#send" className="btn-primary px-5 py-2.5">
-              Send a transfer
-            </Link>
+            <HeroCta />
             <Link
               href="/dashboard"
               className="text-sm font-medium text-slate-300 transition hover:text-white"

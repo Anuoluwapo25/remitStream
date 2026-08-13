@@ -32,11 +32,15 @@ export function WalletButton() {
     );
   }
 
+  // Deliberately not a primary button. Every disconnected view already puts a
+  // solid "Connect wallet" in its content area, and two identical primary
+  // buttons on one screen read as a duplicate rather than a choice. This one is
+  // persistent chrome, so it takes the quieter treatment.
   return (
     <button
       onClick={() => connect()}
       disabled={connecting}
-      className="btn-primary px-4 py-2 text-sm"
+      className="btn-ghost px-4 py-2 text-sm"
     >
       {connecting ? "Connecting…" : "Connect wallet"}
     </button>
