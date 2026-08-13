@@ -69,9 +69,13 @@ intercepts the payment in-flight.
 |---|---|
 | ![Send](docs/screenshots/home-desktop.png) | ![Dashboard](docs/screenshots/dashboard.png) |
 
-| Analytics & monitoring | Mobile |
+| Transaction history | Analytics & monitoring |
 |---|---|
-| ![Insights](docs/screenshots/insights.png) | ![Mobile](docs/screenshots/home-mobile.png) |
+| ![History](docs/screenshots/history.png) | ![Insights](docs/screenshots/insights.png) |
+
+| Mobile |
+|---|
+| ![Mobile](docs/screenshots/home-mobile.png) |
 
 ---
 
