@@ -1,4 +1,4 @@
-import { DECIMALS, UNIT } from "./config";
+import { config, DECIMALS, UNIT } from "./config";
 
 /** Convert a human amount ("12.5") to base units (stroops-like i128). */
 export function toBaseUnits(amount: string | number): bigint {
@@ -33,8 +33,8 @@ export function fromBaseUnits(
   return `${neg ? "-" : ""}${wholeStr}${fracStr ? "." + fracStr : ""}`;
 }
 
-/** Money display, always with the asset code. */
-export function money(units: bigint, code = "rUSDC"): string {
+/** Money display, always with the asset code of the configured token. */
+export function money(units: bigint, code = config.assetCode): string {
   return `${fromBaseUnits(units)} ${code}`;
 }
 

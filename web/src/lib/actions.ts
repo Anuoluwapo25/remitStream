@@ -33,7 +33,7 @@ async function submit<T>(assembled: Assembled<T>): Promise<Submitted<T>> {
   return { result: sent.result, txHash: sent.sendTransactionResponse?.hash ?? null };
 }
 
-/** Claim testnet rUSDC from the faucet. */
+/** Claim test tokens from the faucet built into the testnet token. */
 export async function claimFaucet(signer: Signer): Promise<Submitted<null>> {
   const tx = await tokenClient(signer).faucet({ to: signer.publicKey });
   return submit(tx);

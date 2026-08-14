@@ -4,7 +4,7 @@
 //
 //   Horizon  — every operation the wallet *signed*, with full retention. This
 //              covers sends, withdrawals, rule changes and faucet claims, but
-//              it can never show an incoming remittance: rUSDC balances live in
+//              it can never show an incoming remittance: token balances live in
 //              contract storage, so the recipient's account does not appear in
 //              the transaction that pays them.
 //

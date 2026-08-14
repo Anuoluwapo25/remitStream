@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { fromBaseUnits, money, timeAgo } from "@/lib/format";
+import { config } from "@/lib/config";
 import { Stat, Skeleton, SectionTitle, Empty } from "./ui";
 
 type Insights = {
@@ -198,7 +199,7 @@ export function InsightsPanel() {
                             : "bg-white/5"
                         }`}
                         style={{ height: `${height}px` }}
-                        title={`${fromBaseUnits(volume)} rUSDC · ${d.count} transfer(s)`}
+                        title={`${fromBaseUnits(volume)} ${config.assetCode} · ${d.count} transfer(s)`}
                       />
                     </div>
                     <span className="text-[10px] text-slate-500">

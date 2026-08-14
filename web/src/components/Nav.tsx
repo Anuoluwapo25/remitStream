@@ -86,7 +86,7 @@ export function Nav() {
             })}
           </div>
           <div className="mt-3 sm:hidden">
-            <WalletButton />
+            <WalletButton showConnect />
           </div>
         </div>
       )}

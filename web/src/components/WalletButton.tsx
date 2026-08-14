@@ -4,7 +4,18 @@ import { useWallet } from "@/lib/wallet";
 import { shortAddress } from "@/lib/format";
 import { useToast } from "./Toast";
 
-export function WalletButton() {
+/**
+ * Header wallet control.
+ *
+ * Connected, it shows the account and a way to disconnect. Disconnected it
+ * renders nothing by default: every view that needs a wallet already puts a
+ * connect button in its own content, so a second one in the header was the
+ * same call to action twice on one screen.
+ *
+ * `showConnect` opts a surface back in. The mobile menu uses it, because there
+ * the header and the page's own button are never on screen together.
+ */
+export function WalletButton({ showConnect = false }: { showConnect?: boolean }) {
   const { address, connecting, connect, disconnect } = useWallet();
   const toast = useToast();
 
@@ -32,15 +43,13 @@ export function WalletButton() {
     );
   }
 
-  // Deliberately not a primary button. Every disconnected view already puts a
-  // solid "Connect wallet" in its content area, and two identical primary
-  // buttons on one screen read as a duplicate rather than a choice. This one is
-  // persistent chrome, so it takes the quieter treatment.
+  if (!showConnect) return null;
+
   return (
     <button
       onClick={() => connect()}
       disabled={connecting}
-      className="btn-ghost px-4 py-2 text-sm"
+      className="btn-primary w-full px-4 py-2 text-sm"
     >
       {connecting ? "Connecting…" : "Connect wallet"}
     </button>

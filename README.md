@@ -234,6 +234,44 @@ Stellar **Testnet** — see [`deployments.json`](deployments.json).
 | SavingsVault | [`CCF36HNGIGLQYCZYACJDLKKV42X4U7UXRAEDCOU3MTYYP7HLKOREMO3Y`](https://stellar.expert/explorer/testnet/contract/CCF36HNGIGLQYCZYACJDLKKV42X4U7UXRAEDCOU3MTYYP7HLKOREMO3Y) |
 | rUSDC token | [`CD3TKICZQDPXPOYDFZW4JFHX5AT7VFK2VJZQE22Q4CYZQKYDVLW2ZFP2`](https://stellar.expert/explorer/testnet/contract/CD3TKICZQDPXPOYDFZW4JFHX5AT7VFK2VJZQE22Q4CYZQKYDVLW2ZFP2) |
 
+### Why rUSDC, and how to move off it
+
+rUSDC is a SEP-41 test stablecoin deployed for this pilot. It exists for one
+reason: **onboarding friction.** Getting a tester started with real testnet USDC
+means establishing a trustline and finding a faucet or anchor that will issue it
+— several steps before anyone sees the product. rUSDC keeps balances in contract
+storage and ships a rate-limited faucet, so a tester goes from zero to funded in
+one tap. For measuring whether people understand and use an auto-save
+remittance flow, that trade was worth it.
+
+It is a test token, though, so it proves nothing about moving real value. What
+matters is that **the contracts were never coupled to it.** Both the router and
+the vault take a token address at `initialize` and talk to it through the
+standard token interface:
+
+```rust
+pub fn initialize(env: Env, admin: Address, vault: Address, token: Address)
+// ...
+token::TokenClient::new(&env, &cfg.token).transfer(&sender, &router, &amount);
+```
+
+Any SEP-41 token works, including the Stellar Asset Contract that wraps real
+USDC. Switching is a deployment concern, not a rewrite:
+
+```bash
+# Point a deployment at real testnet USDC instead of rUSDC
+NEXT_PUBLIC_TOKEN_ID=<USDC Stellar Asset Contract address>
+NEXT_PUBLIC_ASSET_CODE=USDC
+NEXT_PUBLIC_FAUCET_ENABLED=false   # a real asset has nothing to hand out
+```
+
+The asset code is read from config throughout the UI, and the faucet button and
+its onboarding step hide themselves when there is no faucet to call. The only
+rUSDC-specific code in the repo is the token contract itself.
+
+Real USDC via a SEP-24 anchor is the first item on the roadmap, because it is
+what turns a demonstrated flow into a moved pound.
+
 ---
 
 ## Run it locally

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useWallet } from "@/lib/wallet";
 import { useHistory } from "@/lib/hooks";
 import type { HistoryEntry, HistoryKind } from "@/lib/history";
-import { explorerTx, explorerAccount } from "@/lib/config";
+import { config, explorerTx, explorerAccount } from "@/lib/config";
 import { bpsToPercent, money, shortAddress, timeAgo } from "@/lib/format";
 import { Skeleton, Empty, Stat } from "./ui";
 
@@ -43,7 +43,7 @@ const KIND_META: Record<
     tone: "text-slate-300 bg-white/5",
   },
   faucet: {
-    label: "Claimed test rUSDC",
+    label: `Claimed test ${config.assetCode}`,
     icon: "🚰",
     tone: "text-slate-300 bg-white/5",
   },

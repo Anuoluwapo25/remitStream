@@ -24,6 +24,17 @@ export const config = {
       process.env.NEXT_PUBLIC_ROUTER_ID ??
       "CAUHITYG2QOBX25HBP5NSGV4YJGJWIKFU5RAKIB5YC7IU6ZPBPUHFY4L",
   },
+  // Display code for the settlement asset.
+  //
+  // The router and vault take a token address at initialize and talk to it
+  // through the standard token interface, so they work with any SEP-41 token —
+  // including the Stellar Asset Contract wrapping real USDC. Nothing on-chain
+  // is specific to rUSDC, and nothing in the UI should be either: point a
+  // deployment at a different token and set this to match.
+  assetCode: process.env.NEXT_PUBLIC_ASSET_CODE ?? "rUSDC",
+  // The testnet token ships a faucet so pilot testers can get funds in one tap.
+  // A real asset has no such thing, so the faucet UI hides itself.
+  faucetEnabled: process.env.NEXT_PUBLIC_FAUCET_ENABLED !== "false",
   explorerBase:
     process.env.NEXT_PUBLIC_EXPLORER_BASE ??
     "https://stellar.expert/explorer/testnet",

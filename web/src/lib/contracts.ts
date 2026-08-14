@@ -46,7 +46,7 @@ export function routerClient(signer?: Signer): RouterClient {
 /** Known contract error messages, keyed by the numeric code the SDK surfaces. */
 export const CONTRACT_ERRORS: Record<string, string> = {
   FaucetCooldown: "You've already claimed recently. Try again in a few hours.",
-  InsufficientBalance: "Not enough rUSDC for this amount.",
+  InsufficientBalance: `Not enough ${config.assetCode} for this amount.`,
   InvalidAmount: "Enter an amount greater than zero.",
   InvalidSplit: "Savings rate must be between 0% and 100%.",
   SelfTransfer: "You can't send a remittance to yourself.",

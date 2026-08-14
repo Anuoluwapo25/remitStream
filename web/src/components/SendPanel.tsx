@@ -9,6 +9,7 @@ import { sendRemittance } from "@/lib/actions";
 import { humanizeError } from "@/lib/contracts";
 import { fromBaseUnits, toBaseUnits, money, shortAddress } from "@/lib/format";
 import { track } from "@/lib/analytics";
+import { config } from "@/lib/config";
 import { useToast } from "./Toast";
 import { FaucetButton } from "./FaucetButton";
 import { GettingStarted } from "./Onboarding";
@@ -158,7 +159,7 @@ export function SendPanel() {
         )}
 
         <label className="label mt-4" htmlFor="amount">
-          Amount (rUSDC)
+          Amount ({config.assetCode})
         </label>
         <div className="relative">
           <input

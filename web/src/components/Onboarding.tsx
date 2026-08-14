@@ -25,6 +25,7 @@ import { useWallet } from "@/lib/wallet";
 import type { AccountData } from "@/lib/reads";
 import { fetchSignedHistory } from "@/lib/history";
 import { track } from "@/lib/analytics";
+import { config } from "@/lib/config";
 
 const SEEN_KEY = "rs.onboarding.seen";
 const CHECKLIST_HIDDEN_KEY = "rs.onboarding.checklistHidden";
@@ -209,8 +210,12 @@ export function GettingStarted({ data }: { data: AccountData | null }) {
     },
     {
       id: "funds",
-      label: "Get some test rUSDC",
-      hint: "One tap of “Get test rUSDC” — no trustline setup needed.",
+      label: config.faucetEnabled
+        ? `Get some test ${config.assetCode}`
+        : `Fund your wallet with ${config.assetCode}`,
+      hint: config.faucetEnabled
+        ? `One tap of \u201cGet test ${config.assetCode}\u201d \u2014 no trustline setup needed.`
+        : `Send ${config.assetCode} to this address from any Stellar wallet.`,
       done: (data?.walletBalance ?? 0n) > 0n,
     },
     {
