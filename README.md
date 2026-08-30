@@ -63,6 +63,9 @@ intercepts the payment in-flight.
 > Need test funds? Connect a wallet and hit **Get test rUSDC** — the token
 > contract has a built-in faucet, so no trustline setup is required.
 
+> **Want to try it and be counted as a pilot tester?** Follow
+> [`docs/TESTER_GUIDE.md`](docs/TESTER_GUIDE.md) — takes about 2 minutes.
+
 ### Screenshots
 
 | Landing & send flow | Recipient dashboard |
@@ -360,12 +363,22 @@ Ordered by what unblocks real money moving through the product.
 
 ### Next phase, driven by this round of feedback
 
-The remaining unaddressed requests set the agenda for the next release:
-asset-generic contracts so XLM and other tokens work, a real yield source behind
-the vault, and a push to onboard testers past the 22 wallets currently verifiable
-on-chain. The onboarding guide added here is the first half of that push — the
-second is recruiting through diaspora community groups rather than one wallet at
-a time.
+Items already shipped from this round are listed with their commits in
+[What pilot users asked for](#what-pilot-users-asked-for) above. What's still
+open sets the agenda for the next release:
+
+- **Asset-generic contracts**, so XLM and other Stellar assets work — the
+  router and vault currently hard-code rUSDC. Requested by multiple pilot
+  testers; tracked in [Raised, and deliberately not built](#raised-and-deliberately-not-built).
+- **A real yield source behind the vault** (Blend integration) — the
+  accounting is real today, the yield itself is manually accrued.
+- **Onboarding testers past the 22 wallets currently verifiable on-chain.**
+  [`docs/TESTER_GUIDE.md`](docs/TESTER_GUIDE.md) and
+  [`scripts/add-tester.mjs`](scripts/add-tester.mjs)
+  ([`01a2f02`](../../commit/01a2f02)) turn a
+  tester reply into a verified, on-chain-checked row in `USER_PROOF.md` in one
+  command — built to make the next push (diaspora community groups, not one
+  wallet at a time) fast to act on.
 
 ## License
 
