@@ -57,7 +57,7 @@ intercepts the payment in-flight.
 | **App** | https://remit-stream.vercel.app/ |
 | **Network** | Stellar Testnet |
 | **Demo video** | https://www.loom.com/share/3096850b52a14db092b3ef6c6c4e627c |
-| **Pitch deck** | [`docs/RemitStream-Pitch.pptx`](docs/RemitStream-Pitch.pptx) |
+| **Pitch deck** | [`docs/RemitStream-Pitch.pdf`](docs/RemitStream-Pitch.pdf) (previews inline on GitHub) · [.pptx source](docs/RemitStream-Pitch.pptx) |
 | **Feedback form** | [Google Form responses](https://docs.google.com/spreadsheets/d/1qWlgaFwnT-XQyprBxDzJ1d5r18-J3qXOimasJRg_o3U/edit?resourcekey=&gid=146620607#gid=146620607) |
 
 > Need test funds? Connect a wallet and hit **Get test rUSDC** — the token
