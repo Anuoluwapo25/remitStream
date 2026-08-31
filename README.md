@@ -8,6 +8,7 @@ Send money home in seconds for a fraction of a cent — and let the recipient
 automatically save a slice of every transfer into an on-chain vault that earns yield.
 
 [Live demo](#live-demo) · [What changed from user feedback](#what-pilot-users-asked-for)
+· [Market](#market-opportunity) · [Growth](#growth-strategy)
 · [Proof of usage](#proof-of-usage) · [Architecture](#architecture) · [Run locally](#run-it-locally)
 
 </div>
@@ -50,13 +51,41 @@ intercepts the payment in-flight.
 
 ---
 
+## Market opportunity
+
+Start where fees hurt most and where the habit of receiving money digitally
+already exists.
+
+| | |
+|---|---|
+| **$685B** | TAM — annual remittances to low- and middle-income countries |
+| **$54B** | SAM — remittances into Sub-Saharan Africa |
+| **$20B** | Nigeria alone, the largest single corridor in the region |
+| **7.9%** | average cost of sending $200 to Sub-Saharan Africa |
+
+*Sources: World Bank KNOMAD Migration and Development Brief; Remittance Prices
+Worldwide. These are market figures, not traction — traction is in
+[Proof of usage](#proof-of-usage), and it is 22 testnet wallets.*
+
+**Beachhead: UK / US → Nigeria.** The most expensive major corridor in the
+world, with high smartphone penetration and an established habit of receiving
+money digitally. Fee sensitivity is acute and switching costs are low.
+
+**The wedge is savings, not price.** Competing on price alone invites a race to
+zero against far better funded incumbents, and the fee advantage of a Stellar
+transfer is easy for anyone to copy. Auto-save changes what the product *is*:
+the recipient accumulates a balance inside the app, which creates a reason to
+come back that a cheaper transfer never does.
+
+---
+
 ## Live demo
 
 | | |
 |---|---|
 | **App** | https://remit-stream.vercel.app/ |
 | **Network** | Stellar Testnet |
-| **Demo video** | https://www.loom.com/share/3096850b52a14db092b3ef6c6c4e627c |
+| **Demo video** | https://www.loom.com/share/843b951b664c4cc7a8ee4ae46ffa9e7c |
 | **Pitch deck** | [`docs/RemitStream-Pitch.pdf`](docs/RemitStream-Pitch.pdf) (previews inline on GitHub) · [.pptx source](docs/RemitStream-Pitch.pptx) |
 | **Feedback form** | [Google Form responses](https://docs.google.com/spreadsheets/d/1qWlgaFwnT-XQyprBxDzJ1d5r18-J3qXOimasJRg_o3U/edit?resourcekey=&gid=146620607#gid=146620607) |
 
@@ -342,6 +371,31 @@ proof first and the two can't disagree.
 ```bash
 cd contracts && cargo test
 ```
+
+---
+
+## Growth strategy
+
+Acquisition through the receiving side, because that is where the product is
+differentiated. The sender chooses a rail; the recipient is the one who gets
+something they cannot get anywhere else.
+
+| Phase | Focus | What it means |
+|---|---|---|
+| **Now** | Testnet pilot | Recruit testers through the feedback form and Stellar community channels. Instrument everything and ship against written feedback, as [this round](#what-pilot-users-asked-for) did. |
+| **Next** | Seeded corridor | One corridor carrying real value through a SEP-24 anchor. Recruit recipients first — each one brings the person who sends to them. |
+| **Then** | Compounding loop | The savings balance becomes the retention mechanic: goals, streaks, and a small credit line against the vault give people a reason to keep receiving through RemitStream. |
+
+**Retention metric that matters:** share of recipients with a non-zero vault
+balance 30 days after their first transfer. Transfer count measures the rail;
+vault balance measures the product.
+
+**Distribution:** diaspora community groups and hometown associations, where one
+trusted recipient introduces many senders — one-at-a-time wallet onboarding does
+not compound. [`docs/TESTER_GUIDE.md`](docs/TESTER_GUIDE.md) and
+[`scripts/add-tester.mjs`](scripts/add-tester.mjs) exist to make that push fast:
+a tester's reply becomes a verified, on-chain-checked row in `USER_PROOF.md` in
+one command.
 
 ---
 
