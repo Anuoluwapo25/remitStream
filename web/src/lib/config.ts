@@ -4,8 +4,10 @@
 // deployments.json. They can be overridden per-environment with NEXT_PUBLIC_*
 // vars so the same build can point at a fresh deployment without code changes.
 
+const network = process.env.NEXT_PUBLIC_STELLAR_NETWORK ?? "testnet";
+
 export const config = {
-  network: process.env.NEXT_PUBLIC_STELLAR_NETWORK ?? "testnet",
+  network,
   networkPassphrase:
     process.env.NEXT_PUBLIC_NETWORK_PASSPHRASE ??
     "Test SDF Network ; September 2015",
@@ -13,6 +15,13 @@ export const config = {
     process.env.NEXT_PUBLIC_RPC_URL ?? "https://soroban-testnet.stellar.org",
   horizonUrl:
     process.env.NEXT_PUBLIC_HORIZON_URL ?? "https://horizon-testnet.stellar.org",
+  // A fresh wallet has no account on testnet until something creates one, and
+  // no Soroban call — the faucet included — can be built without it. The app
+  // creates it with friendbot rather than assuming the wallet offered to.
+  // Empty on a network with no faucet, which turns the whole path off.
+  friendbotUrl:
+    process.env.NEXT_PUBLIC_FRIENDBOT_URL ??
+    (network === "testnet" ? "https://friendbot.stellar.org" : ""),
   contracts: {
     token:
       process.env.NEXT_PUBLIC_TOKEN_ID ??

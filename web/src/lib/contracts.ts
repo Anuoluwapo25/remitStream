@@ -65,8 +65,10 @@ export function humanizeError(err: unknown): string {
   }
   if (/insufficient.*fee|txInsufficientFee/i.test(raw))
     return "Network fee too low — please retry.";
+  if (/friendbot/i.test(raw))
+    return "Couldn't create your testnet account automatically. Fund it once at friendbot.stellar.org, then try again.";
   if (/account not found|AccountNotFound/i.test(raw))
-    return "Your account isn't funded on testnet yet.";
+    return `Your wallet has no testnet account yet — tap “Get test ${config.assetCode}” to create it and get funds.`;
   if (/User (declined|rejected)|denied|cancelled/i.test(raw))
     return "Request was cancelled in your wallet.";
   if (/timeout|deadline/i.test(raw))

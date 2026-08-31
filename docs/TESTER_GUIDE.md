@@ -13,17 +13,17 @@ lets us prove real people used the app.
 ## Steps
 
 1. Go to **https://remit-stream.vercel.app/** and click **Connect Wallet**.
-2. First time on testnet? Your wallet has no account yet — Freighter will offer
-   to fund it via friendbot. Accept that.
-3. Click **Get test rUSDC** to claim funds from the in-app faucet. No trustline
-   setup needed.
-4. Open **Dashboard** and set a savings rule — try 20%. Approve it in your
+2. Click **Get test rUSDC** to claim funds from the in-app faucet. No trustline
+   setup needed. On a brand-new wallet the first tap also creates your testnet
+   account, so it takes a few seconds longer — the button says so while it
+   works.
+3. Open **Dashboard** and set a savings rule — try 20%. Approve it in your
    wallet.
-5. Go to **Send**, paste any other testnet address as the recipient (ask
+4. Go to **Send**, paste any other testnet address as the recipient (ask
    whoever invited you for theirs, or use a second wallet/browser profile
    yourself), enter an amount, and hit **Send remittance**. One approval in
    your wallet.
-6. Check **History** — your transaction should show up with a link to
+5. Check **History** — your transaction should show up with a link to
    [stellar.expert](https://stellar.expert/explorer/testnet).
 
 That's it — you've completed one full remittance loop.

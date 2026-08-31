@@ -8,6 +8,7 @@
 // action's contract rather than an afterthought at one call site.
 
 import { tokenClient, vaultClient, routerClient, type Signer } from "./contracts";
+import { ensureAccountFunded } from "./friendbot";
 import type { Split } from "./reads";
 
 /** A submitted transaction: the contract's return value, plus its ledger hash. */
@@ -33,10 +34,26 @@ async function submit<T>(assembled: Assembled<T>): Promise<Submitted<T>> {
   return { result: sent.result, txHash: sent.sendTransactionResponse?.hash ?? null };
 }
 
-/** Claim test tokens from the faucet built into the testnet token. */
-export async function claimFaucet(signer: Signer): Promise<Submitted<null>> {
+/**
+ * Claim test tokens from the faucet built into the testnet token.
+ *
+ * The claim starts by making sure the wallet actually has an account on the
+ * network. A never-used address doesn't, and the SDK can't so much as build the
+ * faucet transaction without one — testers arrived at "Your account isn't
+ * funded on testnet yet." on their very first tap, with no way forward inside
+ * the app. `onStage` reports that extra step when it happens, so the UI can say
+ * why a first claim takes a few seconds longer.
+ */
+export async function claimFaucet(
+  signer: Signer,
+  onStage?: (stage: "creating-account" | "claiming") => void,
+): Promise<Submitted<null> & { accountCreated: boolean }> {
+  const accountCreated = await ensureAccountFunded(signer.publicKey, () =>
+    onStage?.("creating-account"),
+  );
+  if (accountCreated) onStage?.("claiming");
   const tx = await tokenClient(signer).faucet({ to: signer.publicKey });
-  return submit(tx);
+  return { ...(await submit<null>(tx)), accountCreated };
 }
 
 /** Set the connected user's savings rule (basis points, 0–10000). */

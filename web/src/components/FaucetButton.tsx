@@ -16,21 +16,32 @@ export function FaucetButton({
   className?: string;
 }) {
   const { signer } = useWallet();
-  const [loading, setLoading] = useState(false);
+  // "creating" is the first-tap case where the wallet has no testnet account
+  // yet: friendbot has to make one before the faucet call can be built, which
+  // adds a few seconds the user would otherwise see as an unexplained hang.
+  const [stage, setStage] = useState<"idle" | "creating-account" | "claiming">(
+    "idle",
+  );
   const toast = useToast();
+  const loading = stage !== "idle";
 
   async function claim() {
     if (!signer) return;
-    setLoading(true);
+    setStage("claiming");
     try {
-      const { txHash } = await claimFaucet(signer);
-      track("faucet_claimed", { txHash });
-      toast.success(`1,000 ${config.assetCode} added to your wallet`, txHash);
+      const { txHash, accountCreated } = await claimFaucet(signer, setStage);
+      track("faucet_claimed", { txHash, accountCreated });
+      toast.success(
+        accountCreated
+          ? `Testnet account created and 1,000 ${config.assetCode} added to your wallet`
+          : `1,000 ${config.assetCode} added to your wallet`,
+        txHash,
+      );
       onDone?.();
     } catch (e) {
       toast.error(humanizeError(e));
     } finally {
-      setLoading(false);
+      setStage("idle");
     }
   }
 
@@ -44,7 +55,11 @@ export function FaucetButton({
       disabled={loading || !signer}
       className={`btn-ghost ${className}`}
     >
-      {loading ? "Claiming…" : `Get test ${config.assetCode}`}
+      {stage === "creating-account"
+        ? "Creating your testnet account…"
+        : stage === "claiming"
+          ? "Claiming…"
+          : `Get test ${config.assetCode}`}
     </button>
   );
 }
