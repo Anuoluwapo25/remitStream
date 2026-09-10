@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { DarkModeToggle } from "./DarkModeToggle";
 import { WalletButton } from "./WalletButton";
 
 const LINKS = [
@@ -18,13 +17,13 @@ export function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-ink-900/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-ink-700 bg-ink-900/90 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Link href="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-lg font-black">
+          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand-300 font-display text-lg font-semibold text-ink-900">
             ₪
           </span>
-          <span className="text-lg font-bold tracking-tight">RemitStream</span>
+          <span className="font-display text-lg font-semibold tracking-tight">RemitStream</span>
           <span className="pill hidden sm:inline-flex">testnet</span>
         </Link>
 
@@ -39,7 +38,7 @@ export function Nav() {
                 className={`rounded-lg px-3 py-2 text-sm font-medium transition ${
                   active
                     ? "bg-white/10 text-white"
-                    : "text-slate-400 hover:text-white"
+                    : "text-stone-400 hover:text-white"
                 }`}
               >
                 {l.label}
@@ -49,11 +48,8 @@ export function Nav() {
         </nav>
 
         <div className="flex items-center gap-2">
-          {/* These two were stacked in a block container, so the theme toggle
-              hung below the wallet button and pushed the header out of line. */}
           <div className="hidden items-center gap-2 sm:flex">
             <WalletButton />
-            <DarkModeToggle />
           </div>
           <button
             className="btn-ghost px-2.5 py-2 md:hidden"
@@ -66,7 +62,7 @@ export function Nav() {
       </div>
 
       {open && (
-        <div className="border-t border-white/10 px-4 py-3 md:hidden">
+        <div className="border-t border-ink-700 px-4 py-3 md:hidden">
           <div className="flex flex-col gap-1">
             {LINKS.map((l) => {
               const active =
@@ -77,7 +73,7 @@ export function Nav() {
                   href={l.href}
                   onClick={() => setOpen(false)}
                   className={`rounded-lg px-3 py-2.5 text-sm font-medium ${
-                    active ? "bg-white/10 text-white" : "text-slate-300"
+                    active ? "bg-white/10 text-white" : "text-stone-300"
                   }`}
                 >
                   {l.label}

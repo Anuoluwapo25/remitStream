@@ -30,7 +30,7 @@ export function WalletButton({ showConnect = false }: { showConnect?: boolean })
           className="pill hover:bg-white/10"
           title={address}
         >
-          <span className="h-2 w-2 rounded-full bg-emerald-400" />
+          <span className="h-2 w-2 rounded-full bg-accent-400" />
           {shortAddress(address)}
         </button>
         <button

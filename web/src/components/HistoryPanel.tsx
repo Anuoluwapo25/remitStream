@@ -21,36 +21,36 @@ const KIND_META: Record<
   HistoryKind,
   { label: string; icon: string; tone: string }
 > = {
-  sent: { label: "Sent", icon: "↗", tone: "text-sky-300 bg-sky-500/10" },
+  sent: { label: "Sent", icon: "↗", tone: "text-stone-300 bg-ink-700/60" },
   received: {
     label: "Received",
     icon: "↙",
-    tone: "text-emerald-300 bg-emerald-500/10",
+    tone: "text-accent-200 bg-accent-500/10",
   },
   withdraw: {
     label: "Withdrew savings",
     icon: "↓",
-    tone: "text-amber-300 bg-amber-500/10",
+    tone: "text-brand-200 bg-brand-500/10",
   },
   deposit: {
     label: "Deposited to vault",
     icon: "↑",
-    tone: "text-brand-300 bg-brand-500/10",
+    tone: "text-brand-200 bg-brand-500/10",
   },
   rule: {
-    label: "Updated auto-save rule",
+    label: "Updated savings goals",
     icon: "⚙",
-    tone: "text-slate-300 bg-white/5",
+    tone: "text-stone-300 bg-ink-700/60",
   },
   faucet: {
     label: `Claimed test ${config.assetCode}`,
     icon: "🚰",
-    tone: "text-slate-300 bg-white/5",
+    tone: "text-stone-300 bg-white/5",
   },
   other: {
     label: "Contract call",
     icon: "·",
-    tone: "text-slate-400 bg-white/5",
+    tone: "text-stone-400 bg-white/5",
   },
 };
 
@@ -100,7 +100,7 @@ export function HistoryPanel() {
   if (!address) {
     return (
       <div className="card p-6 text-center">
-        <p className="mb-4 text-slate-300">
+        <p className="mb-4 text-stone-300">
           Connect your wallet to see every transaction you&apos;ve made, with a
           link to each one on the block explorer.
         </p>
@@ -140,18 +140,18 @@ export function HistoryPanel() {
                 className={`rounded-lg border px-3 py-1.5 text-xs font-medium transition ${
                   filter === f.id
                     ? "border-brand-400/60 bg-brand-500/15 text-brand-100"
-                    : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
+                    : "border-white/10 bg-white/5 text-stone-300 hover:bg-white/10"
                 }`}
               >
                 {f.label}
-                <span className="ml-1.5 text-slate-500">{count}</span>
+                <span className="ml-1.5 text-stone-500">{count}</span>
               </button>
             );
           })}
         </div>
         <div className="flex items-center gap-3">
           {history?.eventsPending && (
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-stone-500">
               Loading incoming transfers…
             </span>
           )}
@@ -166,7 +166,7 @@ export function HistoryPanel() {
       </div>
 
       {error && (
-        <div className="card border-rose-400/20 bg-rose-500/5 p-4 text-sm text-rose-200">
+        <div className="card border-flag-400/20 bg-flag-500/5 p-4 text-sm text-flag-200">
           {error}{" "}
           <button onClick={refresh} className="underline">
             Retry
@@ -195,14 +195,14 @@ export function HistoryPanel() {
       )}
 
       {history?.eventsCovered && (
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-stone-500">
           Sent, withdrawn and rule transactions come from full ledger history.
           Incoming remittances are read from the network&apos;s contract-event
           feed, which retains roughly the last 7 days.
         </p>
       )}
       {history && !history.eventsCovered && !history.eventsPending && (
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-stone-500">
           Incoming remittances are read from the network&apos;s contract-event
           feed, which is temporarily unreachable. Everything you signed yourself
           is still listed above.
@@ -229,14 +229,14 @@ function HistoryRow({ entry }: { entry: HistoryEntry }) {
           <div className="flex flex-wrap items-baseline gap-x-2">
             <span className="font-semibold">{meta.label}</span>
             {!entry.success && (
-              <span className="rounded-md bg-rose-500/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-rose-300">
+              <span className="rounded-md bg-flag-500/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-flag-300">
                 Failed
               </span>
             )}
-            <span className="text-xs text-slate-500">{timeAgo(entry.ts)}</span>
+            <span className="text-xs text-stone-500">{timeAgo(entry.ts)}</span>
           </div>
 
-          <div className="mt-0.5 text-sm text-slate-400">
+          <div className="mt-0.5 text-sm text-stone-400">
             {entry.counterparty && (
               <>
                 {entry.kind === "sent" ? "To " : "From "}
@@ -244,7 +244,7 @@ function HistoryRow({ entry }: { entry: HistoryEntry }) {
                   href={explorerAccount(entry.counterparty)}
                   target="_blank"
                   rel="noreferrer"
-                  className="font-mono text-slate-300 hover:text-brand-300 hover:underline"
+                  className="font-mono text-stone-300 hover:text-brand-300 hover:underline"
                 >
                   {shortAddress(entry.counterparty, 6, 6)}
                 </a>
@@ -261,11 +261,11 @@ function HistoryRow({ entry }: { entry: HistoryEntry }) {
           </div>
 
           {(entry.payout != null || entry.saved != null) && (
-            <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-400">
+            <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-xs text-stone-400">
               {entry.payout != null && (
                 <span>
                   Cashed out{" "}
-                  <span className="font-medium text-slate-300">
+                  <span className="font-medium text-stone-300">
                     {money(entry.payout)}
                   </span>
                 </span>
@@ -287,10 +287,10 @@ function HistoryRow({ entry }: { entry: HistoryEntry }) {
             <span
               className={`font-semibold tabular-nums ${
                 entry.kind === "received"
-                  ? "text-emerald-300"
+                  ? "text-accent-300"
                   : entry.kind === "sent"
-                    ? "text-slate-100"
-                    : "text-slate-300"
+                    ? "text-stone-100"
+                    : "text-stone-300"
               }`}
             >
               {entry.kind === "sent" ? "−" : entry.kind === "received" ? "+" : ""}

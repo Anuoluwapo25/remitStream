@@ -1,6 +1,17 @@
 import type { Metadata, Viewport } from "next";
+import { Fraunces } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+
+// A soft-serif display face for headings. It carries most of the warmth that
+// the old blue-and-glow palette was missing; body copy stays on the system
+// sans stack.
+const display = Fraunces({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-display",
+  weight: ["400", "500", "600", "700"],
+});
 import { WalletProvider } from "@/lib/wallet";
 import { ToastProvider } from "@/components/Toast";
 import { AppErrorBoundary } from "@/components/ErrorBoundary";
@@ -23,7 +34,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b1220",
+  themeColor: "#161512",
   width: "device-width",
   initialScale: 1,
 };
@@ -34,7 +45,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={display.variable}>
       <body className="min-h-dvh">
         <AppErrorBoundary>
           <ToastProvider>

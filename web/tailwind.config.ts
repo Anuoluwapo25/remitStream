@@ -2,31 +2,64 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx}", "./pages/**/*.{js,ts,jsx,tsx}"],
-  darkMode: 'class',
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
+        // Primary — warm honey/amber. Buttons use a light shade with ink text,
+        // so the brand reads as a warm highlight, not a saturated block.
         brand: {
-          50: "#eef6ff",
-          100: "#d9ebff",
-          200: "#bcdcff",
-          300: "#8ec6ff",
-          400: "#59a6ff",
-          500: "#3385fc",
-          600: "#1e66f1",
-          700: "#1751dd",
-          800: "#1943b3",
-          900: "#1a3c8d",
+          50: "#fbf6ec",
+          100: "#f5e7c9",
+          200: "#eccd94",
+          300: "#e0b061",
+          400: "#d59a3f",
+          500: "#c37f26",
+          600: "#a2631f",
+          700: "#7f4d1f",
+          800: "#67401f",
+          900: "#56361d",
         },
+        // Positive / "saved" — a muted sage, nowhere near neon green.
+        accent: {
+          50: "#eef3ed",
+          100: "#dbe6d8",
+          200: "#bacfb4",
+          300: "#95b28d",
+          400: "#75986c",
+          500: "#5b7e53",
+          600: "#476341",
+          700: "#3b5137",
+          800: "#31432f",
+          900: "#2b3a29",
+        },
+        // Errors / danger — warm brick, not a bright rose.
+        flag: {
+          50: "#faf0ec",
+          100: "#f3dccf",
+          200: "#e6b6a1",
+          300: "#d68f73",
+          400: "#c56b4d",
+          500: "#b24d30",
+          600: "#953d27",
+          700: "#793324",
+          800: "#642d22",
+          900: "#54291f",
+        },
+        // Surfaces — warm charcoal. Brown-black rather than blue-black, which is
+        // most of what made the old palette feel generic.
         ink: {
-          900: "#0b1220",
-          800: "#111a2e",
-          700: "#1a2540",
-          600: "#26324f",
+          950: "#100f0d",
+          900: "#161512",
+          850: "#1c1a16",
+          800: "#232019",
+          700: "#332e24",
+          600: "#463f31",
         },
       },
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "Cambria", "serif"],
       },
       keyframes: {
         "fade-in": {

@@ -11,7 +11,7 @@ export default function HistoryPage() {
         <h1 className="text-2xl font-bold tracking-tight">
           Transaction history
         </h1>
-        <p className="mt-1 text-sm text-slate-400">
+        <p className="mt-1 text-sm text-stone-400">
           Every transfer, withdrawal and rule change on your wallet — read
           straight from the Stellar ledger, each one linked to the block
           explorer.

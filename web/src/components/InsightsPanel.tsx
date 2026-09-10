@@ -92,12 +92,12 @@ export function InsightsPanel() {
           <span className="relative flex h-2.5 w-2.5">
             <span
               className={`absolute inline-flex h-full w-full rounded-full opacity-75 ${
-                chain?.available ? "animate-ping bg-emerald-400" : "bg-slate-500"
+                chain?.available ? "animate-ping bg-accent-400" : "bg-stone-500"
               }`}
             />
             <span
               className={`relative inline-flex h-2.5 w-2.5 rounded-full ${
-                chain?.available ? "bg-emerald-400" : "bg-slate-500"
+                chain?.available ? "bg-accent-400" : "bg-stone-500"
               }`}
             />
           </span>
@@ -107,7 +107,7 @@ export function InsightsPanel() {
               : "Waiting for the Stellar RPC…"}
           </span>
         </div>
-        <span className="text-xs text-slate-400">
+        <span className="text-xs text-stone-400">
           {data ? `Updated ${timeAgo(data.generatedAt)}` : "Loading…"} · refreshes
           every 15s
         </span>
@@ -157,7 +157,7 @@ export function InsightsPanel() {
             />
           </div>
         )}
-        <p className="mt-2 text-xs text-slate-500">
+        <p className="mt-2 text-xs text-stone-500">
           Counted from the router&apos;s own settlement events. The network
           retains roughly seven days of contract events, so this is a rolling
           window rather than an all-time total.
@@ -183,7 +183,7 @@ export function InsightsPanel() {
                   >
                     <span
                       className={`text-[10px] tabular-nums ${
-                        volume > 0n ? "text-slate-300" : "text-transparent"
+                        volume > 0n ? "text-stone-300" : "text-transparent"
                       }`}
                     >
                       {volume > 0n ? fromBaseUnits(volume) : "0"}
@@ -195,14 +195,14 @@ export function InsightsPanel() {
                       <div
                         className={`w-full max-w-[44px] rounded-t-md transition-all ${
                           volume > 0n
-                            ? "bg-gradient-to-t from-brand-600 to-brand-400"
+                            ? "bg-brand-400"
                             : "bg-white/5"
                         }`}
                         style={{ height: `${height}px` }}
                         title={`${fromBaseUnits(volume)} ${config.assetCode} · ${d.count} transfer(s)`}
                       />
                     </div>
-                    <span className="text-[10px] text-slate-500">
+                    <span className="text-[10px] text-stone-500">
                       {d.date.slice(5)}
                     </span>
                   </div>
@@ -210,7 +210,7 @@ export function InsightsPanel() {
               })}
             </div>
           ) : (
-            <p className="py-10 text-center text-sm text-slate-400">
+            <p className="py-10 text-center text-sm text-stone-400">
               No transfers in the last 7 days — send one and it appears here
               within seconds.
             </p>
@@ -253,7 +253,7 @@ export function InsightsPanel() {
             </>
           )}
         </div>
-        <p className="mt-2 text-xs text-slate-500">
+        <p className="mt-2 text-xs text-stone-500">
           Read directly from the SavingsVault contract, so these figures are
           all-time and current as of this page load.
         </p>
@@ -267,7 +267,7 @@ export function InsightsPanel() {
             <span
               className={`h-3 w-3 rounded-full ${
                 (data?.reports.errors24h ?? 0) === 0
-                  ? "bg-emerald-400"
+                  ? "bg-accent-400"
                   : "bg-amber-400"
               }`}
             />
@@ -277,7 +277,7 @@ export function InsightsPanel() {
                   ? "All systems normal"
                   : "Errors detected"}
               </div>
-              <div className="text-xs text-slate-400">
+              <div className="text-xs text-stone-400">
                 {data?.reports.errors24h ?? 0} error(s) in last 24h
               </div>
             </div>
@@ -305,7 +305,7 @@ export function InsightsPanel() {
           />
           <Stat label="Responses" value={String(feedback?.count ?? 0)} />
           <div className="card p-4">
-            <div className="text-xs uppercase tracking-wide text-slate-400">
+            <div className="text-xs uppercase tracking-wide text-stone-400">
               Satisfaction
             </div>
             <div className="mt-2 flex gap-1">
@@ -315,7 +315,7 @@ export function InsightsPanel() {
                   className={
                     feedback && n <= Math.round(feedback.avg)
                       ? "text-amber-400"
-                      : "text-slate-600"
+                      : "text-stone-600"
                   }
                 >
                   ★
@@ -332,17 +332,17 @@ export function InsightsPanel() {
                 <div className="flex items-center justify-between">
                   <span className="text-amber-400">
                     {"★".repeat(f.rating)}
-                    <span className="text-slate-600">
+                    <span className="text-stone-600">
                       {"★".repeat(5 - f.rating)}
                     </span>
                   </span>
-                  <span className="text-xs text-slate-500">
+                  <span className="text-xs text-stone-500">
                     {f.role ? `${f.role} · ` : ""}
                     {timeAgo(f.ts)}
                   </span>
                 </div>
                 {f.message && (
-                  <p className="mt-1.5 text-sm text-slate-300">{f.message}</p>
+                  <p className="mt-1.5 text-sm text-stone-300">{f.message}</p>
                 )}
               </div>
             ))
@@ -354,7 +354,7 @@ export function InsightsPanel() {
         </div>
       </section>
 
-      <p className="text-center text-xs text-slate-600">
+      <p className="text-center text-xs text-stone-600">
         Money figures are read from the Stellar ledger. Error reports and in-app
         ratings are first-party and reset when the app is redeployed.
       </p>

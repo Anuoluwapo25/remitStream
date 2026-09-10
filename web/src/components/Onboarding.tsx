@@ -100,7 +100,7 @@ export function WelcomeGuide() {
           </div>
           <button
             onClick={() => close(false)}
-            className="text-2xl leading-none text-slate-500 hover:text-white"
+            className="text-2xl leading-none text-stone-500 hover:text-white"
             aria-label="Skip introduction"
           >
             ×
@@ -113,7 +113,7 @@ export function WelcomeGuide() {
           </span>
           <div>
             <h3 className="font-semibold">{current.title}</h3>
-            <p className="mt-1 text-sm leading-relaxed text-slate-300">
+            <p className="mt-1 text-sm leading-relaxed text-stone-300">
               {current.body}
             </p>
           </div>
@@ -148,7 +148,7 @@ export function WelcomeGuide() {
           </div>
         </div>
 
-        <p className="mt-4 text-center text-xs text-slate-500">
+        <p className="mt-4 text-center text-xs text-stone-500">
           Running on Stellar testnet — the money isn&apos;t real, so try
           anything you like.
         </p>
@@ -256,7 +256,7 @@ export function GettingStarted({ data }: { data: AccountData | null }) {
       <div className="mb-3 flex items-start justify-between gap-3">
         <div>
           <h2 className="font-semibold">Getting started</h2>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-stone-400">
             {doneCount} of {tasks.length} done
             {next ? ` · next: ${next.label.toLowerCase()}` : ""}
           </p>
@@ -264,7 +264,7 @@ export function GettingStarted({ data }: { data: AccountData | null }) {
         {address && (
           <button
             onClick={dismiss}
-            className="text-xs text-slate-500 hover:text-slate-300"
+            className="text-xs text-stone-500 hover:text-stone-300"
           >
             Hide
           </button>
@@ -279,7 +279,7 @@ export function GettingStarted({ data }: { data: AccountData | null }) {
         aria-valuemax={tasks.length}
       >
         <div
-          className="h-full rounded-full bg-gradient-to-r from-brand-500 to-emerald-400 transition-all"
+          className="h-full rounded-full bg-accent-400 transition-all"
           style={{ width: `${(doneCount / tasks.length) * 100}%` }}
         />
       </div>
@@ -290,8 +290,8 @@ export function GettingStarted({ data }: { data: AccountData | null }) {
             <span
               className={`mt-0.5 grid h-5 w-5 flex-none place-items-center rounded-full border text-[11px] font-bold ${
                 task.done
-                  ? "border-emerald-400/40 bg-emerald-500/20 text-emerald-300"
-                  : "border-white/15 bg-white/5 text-slate-500"
+                  ? "border-accent-400/40 bg-accent-500/20 text-accent-300"
+                  : "border-white/15 bg-white/5 text-stone-500"
               }`}
               aria-hidden
             >
@@ -300,13 +300,13 @@ export function GettingStarted({ data }: { data: AccountData | null }) {
             <span className="min-w-0">
               <span
                 className={`block text-sm font-medium ${
-                  task.done ? "text-slate-500 line-through" : "text-slate-100"
+                  task.done ? "text-stone-500 line-through" : "text-stone-100"
                 }`}
               >
                 {task.label}
               </span>
               {!task.done && (
-                <span className="block text-xs text-slate-400">{task.hint}</span>
+                <span className="block text-xs text-stone-400">{task.hint}</span>
               )}
             </span>
           </li>

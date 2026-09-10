@@ -21,7 +21,7 @@ export function DashboardPanel() {
   if (!address) {
     return (
       <div className="card p-6 text-center">
-        <p className="mb-4 text-slate-300">
+        <p className="mb-4 text-stone-300">
           Connect your wallet to manage savings and see your remittance history.
         </p>
         <button className="btn-primary mx-auto" onClick={() => connect()}>
@@ -108,7 +108,7 @@ export function DashboardPanel() {
       </div>
 
       <div className="card flex flex-col items-start justify-between gap-3 p-4 sm:flex-row sm:items-center">
-        <div className="text-sm text-slate-400">
+        <div className="text-sm text-stone-400">
           Need test funds to try a self-transfer or top up?
         </div>
         <FaucetButton onDone={refresh} />
@@ -162,7 +162,7 @@ function WithdrawCard({
   return (
     <div className="card p-5">
       <SectionTitle hint={money(savings)}>Withdraw savings</SectionTitle>
-      <p className="mb-4 text-sm text-slate-400">
+      <p className="mb-4 text-sm text-stone-400">
         Move funds from your vault back to your wallet anytime — including any
         yield earned.
       </p>
@@ -186,7 +186,7 @@ function WithdrawCard({
         </button>
       </div>
       {over && (
-        <p className="mt-1.5 text-xs text-rose-300">
+        <p className="mt-1.5 text-xs text-flag-300">
           You only have {money(savings)} saved.
         </p>
       )}

@@ -65,7 +65,7 @@ export function FeedbackWidget() {
               <h3 className="text-lg font-semibold">How's your experience?</h3>
               <button
                 onClick={() => setOpen(false)}
-                className="text-slate-400 hover:text-white"
+                className="text-stone-400 hover:text-white"
                 aria-label="Close"
               >
                 ×
@@ -80,7 +80,7 @@ export function FeedbackWidget() {
                   onMouseLeave={() => setHover(0)}
                   onClick={() => setRating(n)}
                   className={`text-3xl transition ${
-                    n <= (hover || rating) ? "text-amber-400" : "text-slate-600"
+                    n <= (hover || rating) ? "text-amber-400" : "text-stone-600"
                   }`}
                   aria-label={`${n} star${n > 1 ? "s" : ""}`}
                 >
@@ -98,7 +98,7 @@ export function FeedbackWidget() {
                   className={`flex-1 rounded-lg border px-2 py-2 text-xs font-medium transition ${
                     role === r
                       ? "border-brand-400/60 bg-brand-500/15 text-brand-100"
-                      : "border-white/10 bg-white/5 text-slate-300"
+                      : "border-white/10 bg-white/5 text-stone-300"
                   }`}
                 >
                   {r}

@@ -33,8 +33,8 @@ const ICONS: Record<ToastKind, string> = {
   info: "i",
 };
 const STYLES: Record<ToastKind, string> = {
-  success: "border-emerald-400/30 bg-emerald-500/10 text-emerald-200",
-  error: "border-rose-400/30 bg-rose-500/10 text-rose-200",
+  success: "border-accent-400/30 bg-accent-500/10 text-accent-200",
+  error: "border-flag-400/30 bg-flag-500/10 text-flag-200",
   info: "border-brand-400/30 bg-brand-500/10 text-brand-100",
 };
 
@@ -87,7 +87,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             </span>
             <button
               onClick={() => remove(t.id)}
-              className="text-slate-400 hover:text-white"
+              className="text-stone-400 hover:text-white"
               aria-label="Dismiss"
             >
               ×

@@ -27,7 +27,7 @@ export default function HomePage() {
       <div className="grid gap-12 lg:grid-cols-[1fr_27rem] lg:items-start lg:gap-16">
         <section className="animate-fade-in">
           <span className="pill">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            <span className="h-1.5 w-1.5 rounded-full bg-accent-400" />
             Live on Stellar testnet
           </span>
 
@@ -39,7 +39,7 @@ export default function HomePage() {
             <span className="text-brand-300">Grow it while it waits.</span>
           </h1>
 
-          <p className="mt-6 max-w-[46ch] text-[15px] leading-relaxed text-slate-400">
+          <p className="mt-6 max-w-[46ch] text-[15px] leading-relaxed text-stone-400">
             Transfers settle in seconds for a fraction of a cent — and the
             person receiving them saves a slice of every one, automatically,
             into a vault they control.
@@ -49,7 +49,7 @@ export default function HomePage() {
             <HeroCta />
             <Link
               href="/dashboard"
-              className="text-sm font-medium text-slate-300 transition hover:text-white"
+              className="text-sm font-medium text-stone-300 transition hover:text-white"
             >
               I&apos;m receiving money →
             </Link>
@@ -65,14 +65,14 @@ export default function HomePage() {
         <ol className="grid gap-x-10 gap-y-8 sm:grid-cols-3">
           {STEPS.map((step, i) => (
             <li key={step.title}>
-              <div className="flex items-center gap-2.5 text-slate-500">
+              <div className="flex items-center gap-2.5 text-stone-500">
                 <span className="text-brand-400">{step.icon}</span>
                 <span className="text-xs font-medium tabular-nums">
                   0{i + 1}
                 </span>
               </div>
               <h2 className="mt-3 text-[15px] font-semibold">{step.title}</h2>
-              <p className="mt-1.5 max-w-[38ch] text-sm leading-relaxed text-slate-400">
+              <p className="mt-1.5 max-w-[38ch] text-sm leading-relaxed text-stone-400">
                 {step.body}
               </p>
             </li>

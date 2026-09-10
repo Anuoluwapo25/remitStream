@@ -76,7 +76,7 @@ export function GoalsBoard({
       <SectionTitle hint={`${pct(spendableBps)} stays spendable`}>
         Savings goals
       </SectionTitle>
-      <p className="mb-4 text-sm text-slate-400">
+      <p className="mb-4 text-sm text-stone-400">
         Give each goal a slice of every transfer you receive. Fill one and its
         slice rolls to the next. Everything left lands in your wallet.
       </p>
@@ -100,7 +100,7 @@ export function GoalsBoard({
             />
           ))}
           {visible.length === 0 && (
-            <p className="rounded-xl border border-dashed border-white/15 px-4 py-6 text-center text-sm text-slate-400">
+            <p className="rounded-xl border border-dashed border-white/15 px-4 py-6 text-center text-sm text-stone-400">
               No goals yet. Add one below and your next transfer starts filling
               it.
             </p>
@@ -206,12 +206,12 @@ function GoalCard({
           <div className="flex items-center gap-2">
             <span className="truncate font-semibold">{goal.name}</span>
             {reached && (
-              <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[11px] font-medium text-emerald-300">
+              <span className="rounded-full bg-accent-500/20 px-2 py-0.5 text-[11px] font-medium text-accent-300">
                 reached
               </span>
             )}
           </div>
-          <div className="mt-0.5 text-xs text-slate-400">
+          <div className="mt-0.5 text-xs text-stone-400">
             {targeted ? (
               <>
                 {money(goal.saved)} of {money(goal.target)}
@@ -226,7 +226,7 @@ function GoalCard({
           <button
             onClick={() => move(-1)}
             disabled={busy || index === 0}
-            className="rounded-md px-1.5 py-1 text-slate-500 hover:bg-white/10 hover:text-slate-200 disabled:opacity-30"
+            className="rounded-md px-1.5 py-1 text-stone-500 hover:bg-white/10 hover:text-stone-200 disabled:opacity-30"
             aria-label="Higher priority"
           >
             ↑
@@ -234,7 +234,7 @@ function GoalCard({
           <button
             onClick={() => move(1)}
             disabled={busy || index === count - 1}
-            className="rounded-md px-1.5 py-1 text-slate-500 hover:bg-white/10 hover:text-slate-200 disabled:opacity-30"
+            className="rounded-md px-1.5 py-1 text-stone-500 hover:bg-white/10 hover:text-stone-200 disabled:opacity-30"
             aria-label="Lower priority"
           >
             ↓
@@ -245,7 +245,7 @@ function GoalCard({
       {targeted && (
         <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/5">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-brand-500 to-emerald-400 transition-all"
+            className="h-full rounded-full bg-accent-400 transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -268,21 +268,21 @@ function GoalCard({
           {pct(bps)}
         </span>
       </div>
-      <div className="mt-1 text-[11px] text-slate-500">
+      <div className="mt-1 text-[11px] text-stone-500">
         Slice of every transfer aimed here
       </div>
 
       <div className="mt-3 flex items-center gap-4 border-t border-white/10 pt-2 text-xs">
         <button
           onClick={() => setEditing((v) => !v)}
-          className="text-slate-400 hover:text-white"
+          className="text-stone-400 hover:text-white"
         >
           {editing ? "Close" : "Edit"}
         </button>
         <button
           onClick={archive}
           disabled={busy}
-          className="text-slate-500 hover:text-rose-300"
+          className="text-stone-500 hover:text-flag-300"
         >
           Archive
         </button>

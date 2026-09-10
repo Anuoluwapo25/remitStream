@@ -132,7 +132,7 @@ export function SendPanel() {
       {/* Balance strip */}
       <div className="card flex items-center justify-between p-4">
         <div>
-          <div className="text-xs uppercase tracking-wide text-slate-400">
+          <div className="text-xs uppercase tracking-wide text-stone-400">
             Your balance
           </div>
           {loading && !data ? (
@@ -160,12 +160,12 @@ export function SendPanel() {
           className="input font-mono text-sm"
         />
         {recipient && !recipientValid && (
-          <p className="mt-1.5 text-xs text-rose-300">
+          <p className="mt-1.5 text-xs text-flag-300">
             That doesn't look like a Stellar address.
           </p>
         )}
         {sendingToSelf && (
-          <p className="mt-1.5 text-xs text-rose-300">
+          <p className="mt-1.5 text-xs text-flag-300">
             You can't send to your own address.
           </p>
         )}
@@ -193,7 +193,7 @@ export function SendPanel() {
           </button>
         </div>
         {overBalance && (
-          <p className="mt-1.5 text-xs text-rose-300">
+          <p className="mt-1.5 text-xs text-flag-300">
             Amount exceeds your balance.
           </p>
         )}
@@ -210,16 +210,16 @@ export function SendPanel() {
         <button onClick={send} disabled={!canSend} className="btn-primary mt-5 w-full py-3">
           {sending ? "Sending…" : "Send remittance"}
         </button>
-        <p className="mt-2 text-center text-xs text-slate-500">
+        <p className="mt-2 text-center text-xs text-stone-500">
           Settles in ~5 seconds on Stellar · fee ≈ $0.00001
         </p>
       </div>
 
       {/* Receipt */}
       {lastResult && (
-        <div className="card animate-fade-in border-emerald-400/20 bg-emerald-500/5 p-5">
-          <div className="flex items-center gap-2 text-emerald-300">
-            <span className="grid h-6 w-6 place-items-center rounded-full bg-emerald-500/20 text-sm">
+        <div className="card animate-fade-in border-accent-400/20 bg-accent-500/5 p-5">
+          <div className="flex items-center gap-2 text-accent-300">
+            <span className="grid h-6 w-6 place-items-center rounded-full bg-accent-500/20 text-sm">
               ✓
             </span>
             <span className="font-semibold">
@@ -228,17 +228,17 @@ export function SendPanel() {
           </div>
           <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
             <div>
-              <div className="text-slate-400">Cashed out to recipient</div>
+              <div className="text-stone-400">Cashed out to recipient</div>
               <div className="text-lg font-bold">{money(lastResult.split.payout)}</div>
             </div>
             <div>
-              <div className="text-slate-400">Auto-saved to vault</div>
+              <div className="text-stone-400">Auto-saved to vault</div>
               <div className="text-lg font-bold text-brand-300">
                 {money(lastResult.split.saved)}
               </div>
             </div>
           </div>
-          <div className="mt-2 text-xs text-slate-400">
+          <div className="mt-2 text-xs text-stone-400">
             To {shortAddress(lastResult.recipient)}
           </div>
 
@@ -249,7 +249,7 @@ export function SendPanel() {
             />
             <Link
               href="/history"
-              className="text-xs font-medium text-slate-400 hover:text-white"
+              className="text-xs font-medium text-stone-400 hover:text-white"
             >
               All transactions →
             </Link>
@@ -280,31 +280,31 @@ function SplitPreview({
 
   return (
     <div className="mt-4 rounded-xl border border-white/10 bg-ink-900/50 p-4">
-      <div className="mb-2 flex items-center justify-between text-xs text-slate-400">
+      <div className="mb-2 flex items-center justify-between text-xs text-stone-400">
         <span>How this splits for the recipient</span>
-        {quoting && <span className="text-slate-500">updating…</span>}
+        {quoting && <span className="text-stone-500">updating…</span>}
       </div>
       <div className="flex h-2.5 overflow-hidden rounded-full bg-white/5">
         <div
-          className="bg-emerald-400/80 transition-all"
+          className="bg-accent-400/80 transition-all"
           style={{ width: `${100 - savedPct}%` }}
         />
         <div
-          className="bg-brand-500 transition-all"
+          className="bg-brand-400 transition-all"
           style={{ width: `${savedPct}%` }}
         />
       </div>
       <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
-          <span className="text-slate-400">Cash out</span>
+          <span className="h-2.5 w-2.5 rounded-full bg-accent-400/80" />
+          <span className="text-stone-400">Cash out</span>
           <span className="ml-auto font-semibold tabular-nums">
             {quote ? money(quote.payout) : "—"}
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-brand-500" />
-          <span className="text-slate-400">Saved</span>
+          <span className="h-2.5 w-2.5 rounded-full bg-brand-400" />
+          <span className="text-stone-400">Saved</span>
           <span className="ml-auto font-semibold tabular-nums text-brand-300">
             {quote ? money(quote.saved) : "—"}
           </span>
@@ -313,16 +313,16 @@ function SplitPreview({
 
       {plan.length > 0 && (
         <div className="mt-3 space-y-1.5 border-t border-white/10 pt-3">
-          <div className="text-xs text-slate-400">Goes toward</div>
+          <div className="text-xs text-stone-400">Goes toward</div>
           {plan.map((fill) => (
             <div
               key={fill.goalId}
               className="flex items-center gap-2 text-sm"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-brand-400" />
-              <span className="truncate text-slate-300">{fill.name}</span>
+              <span className="truncate text-stone-300">{fill.name}</span>
               {fill.reachesTarget && (
-                <span className="rounded-full bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-medium text-emerald-300">
+                <span className="rounded-full bg-accent-500/20 px-1.5 py-0.5 text-[10px] font-medium text-accent-300">
                   fills it
                 </span>
               )}
@@ -335,7 +335,7 @@ function SplitPreview({
       )}
 
       {quote && quote.saved === 0n && (
-        <p className="mt-2 text-xs text-slate-500">
+        <p className="mt-2 text-xs text-stone-500">
           This recipient hasn&apos;t set up any savings goals, so the full amount
           is cashed out.
         </p>
