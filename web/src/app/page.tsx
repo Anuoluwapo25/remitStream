@@ -6,8 +6,8 @@ import { SlidersIcon, SendIcon, VaultIcon } from "@/components/icons";
 const STEPS = [
   {
     icon: <SlidersIcon className="h-[18px] w-[18px]" />,
-    title: "Set a savings rate",
-    body: "The recipient chooses how much of each transfer to keep back. Once, in one signature.",
+    title: "Set a savings goal",
+    body: "The recipient names what they're saving for and gives it a slice of every transfer. Once, in one signature.",
   },
   {
     icon: <SendIcon className="h-[18px] w-[18px]" />,
@@ -17,7 +17,7 @@ const STEPS = [
   {
     icon: <VaultIcon className="h-[18px] w-[18px]" />,
     title: "It arrives split",
-    body: "Spending money in the wallet, savings in a vault — withdrawable at any time.",
+    body: "Spending money in the wallet, the rest filling their goals in a vault — withdrawable at any time.",
   },
 ];
 

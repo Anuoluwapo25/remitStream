@@ -6,8 +6,8 @@ export default function DashboardPage() {
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Recipient dashboard</h1>
         <p className="mt-1 text-sm text-slate-400">
-          Manage your auto-save rule, watch your vault earn yield, and withdraw
-          anytime.
+          Set savings goals, watch each one fill with every transfer, and
+          withdraw anytime.
         </p>
       </div>
       <DashboardPanel />

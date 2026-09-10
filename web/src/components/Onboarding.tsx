@@ -45,8 +45,8 @@ const STEPS = [
   },
   {
     icon: "🏦",
-    title: "The recipient saves a slice automatically",
-    body: "Whoever receives the money picks a percentage once — say 20% — and every transfer after that is split for them. They can withdraw those savings whenever they want.",
+    title: "The recipient saves toward a goal automatically",
+    body: "Whoever receives the money names a goal once — school fees, a phone, a rainy day — and gives it a slice of every transfer. Full goals pass their slice to the next. Savings are withdrawable whenever they want.",
   },
 ];
 
@@ -220,8 +220,8 @@ export function GettingStarted({ data }: { data: AccountData | null }) {
     },
     {
       id: "rule",
-      label: "Pick your auto-save rate",
-      hint: "Set on the dashboard. It decides how much of each transfer you receive is saved for you.",
+      label: "Create a savings goal",
+      hint: "Set one on the dashboard. Each goal takes a slice of every transfer you receive.",
       done: (data?.rule.save_bps ?? 0) > 0,
     },
     {

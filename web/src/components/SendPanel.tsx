@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useWallet } from "@/lib/wallet";
 import { useAccountData } from "@/lib/hooks";
-import { quoteSplit, type Split } from "@/lib/reads";
+import { quoteSplit, quotePlan, type Split, type GoalFill } from "@/lib/reads";
 import { sendRemittance } from "@/lib/actions";
 import { humanizeError } from "@/lib/contracts";
 import { fromBaseUnits, toBaseUnits, money, shortAddress } from "@/lib/format";
@@ -25,6 +25,7 @@ export function SendPanel() {
   const [recipient, setRecipient] = useState("");
   const [amount, setAmount] = useState("");
   const [quote, setQuote] = useState<Split | null>(null);
+  const [plan, setPlan] = useState<GoalFill[]>([]);
   const [quoting, setQuoting] = useState(false);
   const [sending, setSending] = useState(false);
   const [lastResult, setLastResult] = useState<{
@@ -46,17 +47,27 @@ export function SendPanel() {
   useEffect(() => {
     if (!recipientValid || !amountValid) {
       setQuote(null);
+      setPlan([]);
       return;
     }
     const id = ++quoteReq.current;
     setQuoting(true);
     const t = setTimeout(() => {
-      quoteSplit(recipient.trim(), amountUnits)
-        .then((q) => {
-          if (id === quoteReq.current) setQuote(q);
+      Promise.all([
+        quoteSplit(recipient.trim(), amountUnits),
+        quotePlan(recipient.trim(), amountUnits).catch(() => [] as GoalFill[]),
+      ])
+        .then(([q, p]) => {
+          if (id === quoteReq.current) {
+            setQuote(q);
+            setPlan(p);
+          }
         })
         .catch(() => {
-          if (id === quoteReq.current) setQuote(null);
+          if (id === quoteReq.current) {
+            setQuote(null);
+            setPlan([]);
+          }
         })
         .finally(() => {
           if (id === quoteReq.current) setQuoting(false);
@@ -100,6 +111,7 @@ export function SendPanel() {
       toast.success(`Sent ${money(amountUnits)}`, txHash);
       setAmount("");
       setQuote(null);
+      setPlan([]);
       refresh();
     } catch (e) {
       toast.error(humanizeError(e));
@@ -189,6 +201,7 @@ export function SendPanel() {
         {/* Split preview */}
         <SplitPreview
           quote={quote}
+          plan={plan}
           quoting={quoting}
           amountUnits={amountUnits}
           show={recipientValid && amountValid}
@@ -249,11 +262,13 @@ export function SendPanel() {
 
 function SplitPreview({
   quote,
+  plan,
   quoting,
   amountUnits,
   show,
 }: {
   quote: Split | null;
+  plan: GoalFill[];
   quoting: boolean;
   amountUnits: bigint;
   show: boolean;
@@ -295,9 +310,34 @@ function SplitPreview({
           </span>
         </div>
       </div>
+
+      {plan.length > 0 && (
+        <div className="mt-3 space-y-1.5 border-t border-white/10 pt-3">
+          <div className="text-xs text-slate-400">Goes toward</div>
+          {plan.map((fill) => (
+            <div
+              key={fill.goalId}
+              className="flex items-center gap-2 text-sm"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-400" />
+              <span className="truncate text-slate-300">{fill.name}</span>
+              {fill.reachesTarget && (
+                <span className="rounded-full bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-medium text-emerald-300">
+                  fills it
+                </span>
+              )}
+              <span className="ml-auto font-semibold tabular-nums text-brand-200">
+                {money(fill.amount)}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
       {quote && quote.saved === 0n && (
         <p className="mt-2 text-xs text-slate-500">
-          This recipient hasn't set a savings rule, so the full amount is cashed out.
+          This recipient hasn&apos;t set up any savings goals, so the full amount
+          is cashed out.
         </p>
       )}
     </div>

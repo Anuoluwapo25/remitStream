@@ -68,6 +68,91 @@ export async function setRule(
   return submit(tx);
 }
 
+/**
+ * Create a savings goal. `target` is in base units (0n = open-ended),
+ * `deadline` is unix seconds (0 = none), `allocationBps` is this goal's slice
+ * of every inbound transfer. Returns the new goal's id.
+ */
+export async function addGoal(
+  signer: Signer,
+  goal: {
+    name: string;
+    target: bigint;
+    deadline: number;
+    allocationBps: number;
+  },
+): Promise<Submitted<number>> {
+  const tx = await routerClient(signer).add_goal({
+    owner: signer.publicKey,
+    name: goal.name,
+    target: goal.target,
+    deadline: BigInt(goal.deadline),
+    allocation_bps: goal.allocationBps,
+  });
+  const { result, txHash } = await submit<number | bigint>(tx);
+  return { result: Number(result), txHash };
+}
+
+/** Replace a goal's editable fields. */
+export async function updateGoal(
+  signer: Signer,
+  goalId: number,
+  goal: {
+    name: string;
+    target: bigint;
+    deadline: number;
+    allocationBps: number;
+  },
+): Promise<Submitted<null>> {
+  const tx = await routerClient(signer).update_goal({
+    owner: signer.publicKey,
+    goal_id: goalId,
+    name: goal.name,
+    target: goal.target,
+    deadline: BigInt(goal.deadline),
+    allocation_bps: goal.allocationBps,
+  });
+  return submit(tx);
+}
+
+/** Change only a goal's allocation — the slider path. */
+export async function setGoalAllocation(
+  signer: Signer,
+  goalId: number,
+  allocationBps: number,
+): Promise<Submitted<null>> {
+  const tx = await routerClient(signer).set_goal_allocation({
+    owner: signer.publicKey,
+    goal_id: goalId,
+    allocation_bps: allocationBps,
+  });
+  return submit(tx);
+}
+
+/** Retire a goal. Principal already saved stays withdrawable in the vault. */
+export async function archiveGoal(
+  signer: Signer,
+  goalId: number,
+): Promise<Submitted<null>> {
+  const tx = await routerClient(signer).archive_goal({
+    owner: signer.publicKey,
+    goal_id: goalId,
+  });
+  return submit(tx);
+}
+
+/** Set goal priority. `order` is the full list of goal ids, first fills first. */
+export async function reorderGoals(
+  signer: Signer,
+  order: number[],
+): Promise<Submitted<null>> {
+  const tx = await routerClient(signer).reorder_goals({
+    owner: signer.publicKey,
+    order,
+  });
+  return submit(tx);
+}
+
 /** Send a remittance; the router splits it per the recipient's rule. */
 export async function sendRemittance(
   signer: Signer,

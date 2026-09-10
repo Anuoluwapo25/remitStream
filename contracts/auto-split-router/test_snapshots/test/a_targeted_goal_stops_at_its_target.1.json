@@ -77,18 +77,73 @@
           "function": {
             "contract_fn": {
               "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAITA4",
-              "function_name": "set_rule",
+              "function_name": "add_goal",
               "args": [
                 {
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDR4"
                 },
                 {
-                  "u32": 3300
+                  "string": "New shoes"
+                },
+                {
+                  "i128": "100"
+                },
+                {
+                  "u64": "0"
+                },
+                {
+                  "u32": 5000
                 }
               ]
             }
           },
           "sub_invocations": []
+        }
+      ]
+    ],
+    [
+      [
+        "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAK3IM",
+        {
+          "function": {
+            "contract_fn": {
+              "contract_address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAITA4",
+              "function_name": "route",
+              "args": [
+                {
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAK3IM"
+                },
+                {
+                  "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDR4"
+                },
+                {
+                  "i128": "300"
+                }
+              ]
+            }
+          },
+          "sub_invocations": [
+            {
+              "function": {
+                "contract_fn": {
+                  "contract_address": "CBEPDNVYXQGWB5YUBXKJWYJA7OXTZW5LFLNO5JRRGE6Z6C5OSUZPCCEL",
+                  "function_name": "transfer",
+                  "args": [
+                    {
+                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAK3IM"
+                    },
+                    {
+                      "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAITA4"
+                    },
+                    {
+                      "i128": "300"
+                    }
+                  ]
+                }
+              },
+              "sub_invocations": []
+            }
+          ]
         }
       ]
     ],
@@ -109,7 +164,7 @@
                   "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDR4"
                 },
                 {
-                  "i128": "777"
+                  "i128": "300"
                 }
               ]
             }
@@ -128,7 +183,7 @@
                       "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAITA4"
                     },
                     {
-                      "i128": "777"
+                      "i128": "300"
                     }
                   ]
                 }
@@ -250,7 +305,7 @@
               },
               "durability": "persistent",
               "val": {
-                "i128": "256"
+                "i128": "100"
               }
             }
           },
@@ -323,7 +378,7 @@
                         ]
                       },
                       "val": {
-                        "i128": "256"
+                        "i128": "100"
                       }
                     },
                     {
@@ -335,7 +390,7 @@
                         ]
                       },
                       "val": {
-                        "i128": "256"
+                        "i128": "100"
                       }
                     }
                   ]
@@ -374,7 +429,7 @@
                           "symbol": "allocation_bps"
                         },
                         "val": {
-                          "u32": 3300
+                          "u32": 5000
                         }
                       },
                       {
@@ -398,7 +453,7 @@
                           "symbol": "name"
                         },
                         "val": {
-                          "string": "Savings"
+                          "string": "New shoes"
                         }
                       },
                       {
@@ -406,7 +461,7 @@
                           "symbol": "saved"
                         },
                         "val": {
-                          "i128": "256"
+                          "i128": "100"
                         }
                       },
                       {
@@ -416,7 +471,7 @@
                         "val": {
                           "vec": [
                             {
-                              "symbol": "Active"
+                              "symbol": "Reached"
                             }
                           ]
                         }
@@ -426,7 +481,7 @@
                           "symbol": "target"
                         },
                         "val": {
-                          "i128": "0"
+                          "i128": "100"
                         }
                       }
                     ]
@@ -491,7 +546,7 @@
                       "symbol": "total_received"
                     },
                     "val": {
-                      "i128": "777"
+                      "i128": "600"
                     }
                   },
                   {
@@ -499,7 +554,7 @@
                       "symbol": "total_saved"
                     },
                     "val": {
-                      "i128": "256"
+                      "i128": "100"
                     }
                   },
                   {
@@ -507,7 +562,7 @@
                       "symbol": "transfers"
                     },
                     "val": {
-                      "u32": 1
+                      "u32": 2
                     }
                   }
                 ]
@@ -605,6 +660,26 @@
           "data": {
             "contract_data": {
               "ext": "v0",
+              "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAK3IM",
+              "key": {
+                "ledger_key_nonce": {
+                  "nonce": "4270020994084947596"
+                }
+              },
+              "durability": "temporary",
+              "val": "void"
+            }
+          },
+          "ext": "v0"
+        },
+        "live_until": 6311999
+      },
+      {
+        "entry": {
+          "last_modified_ledger_seq": 0,
+          "data": {
+            "contract_data": {
+              "ext": "v0",
               "contract": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDR4",
               "key": {
                 "ledger_key_nonce": {
@@ -644,7 +719,7 @@
                       "symbol": "amount"
                     },
                     "val": {
-                      "i128": "256"
+                      "i128": "100"
                     }
                   },
                   {
@@ -748,7 +823,7 @@
                       "symbol": "amount"
                     },
                     "val": {
-                      "i128": "9223"
+                      "i128": "9400"
                     }
                   },
                   {
@@ -800,7 +875,7 @@
                       "symbol": "amount"
                     },
                     "val": {
-                      "i128": "521"
+                      "i128": "500"
                     }
                   },
                   {
@@ -969,7 +1044,7 @@
               }
             ],
             "data": {
-              "i128": "777"
+              "i128": "300"
             }
           }
         }
@@ -998,135 +1073,7 @@
               }
             ],
             "data": {
-              "i128": "521"
-            }
-          }
-        }
-      },
-      "failed_call": false
-    },
-    {
-      "event": {
-        "ext": "v0",
-        "contract_id": "CBEPDNVYXQGWB5YUBXKJWYJA7OXTZW5LFLNO5JRRGE6Z6C5OSUZPCCEL",
-        "type_": "contract",
-        "body": {
-          "v0": {
-            "topics": [
-              {
-                "symbol": "transfer"
-              },
-              {
-                "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAITA4"
-              },
-              {
-                "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M"
-              },
-              {
-                "string": "aaa:GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEGWF"
-              }
-            ],
-            "data": {
-              "i128": "256"
-            }
-          }
-        }
-      },
-      "failed_call": false
-    },
-    {
-      "event": {
-        "ext": "v0",
-        "contract_id": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHK3M",
-        "type_": "contract",
-        "body": {
-          "v0": {
-            "topics": [
-              {
-                "symbol": "credit"
-              },
-              {
-                "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDR4"
-              }
-            ],
-            "data": {
-              "map": [
-                {
-                  "key": {
-                    "symbol": "amount"
-                  },
-                  "val": {
-                    "i128": "256"
-                  }
-                },
-                {
-                  "key": {
-                    "symbol": "shares"
-                  },
-                  "val": {
-                    "i128": "256"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      },
-      "failed_call": false
-    },
-    {
-      "event": {
-        "ext": "v0",
-        "contract_id": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAITA4",
-        "type_": "contract",
-        "body": {
-          "v0": {
-            "topics": [
-              {
-                "symbol": "goal_funded"
-              },
-              {
-                "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDR4"
-              },
-              {
-                "address": "CAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAK3IM"
-              }
-            ],
-            "data": {
-              "map": [
-                {
-                  "key": {
-                    "symbol": "amount"
-                  },
-                  "val": {
-                    "i128": "256"
-                  }
-                },
-                {
-                  "key": {
-                    "symbol": "goal_id"
-                  },
-                  "val": {
-                    "u32": 1
-                  }
-                },
-                {
-                  "key": {
-                    "symbol": "reached"
-                  },
-                  "val": {
-                    "bool": false
-                  }
-                },
-                {
-                  "key": {
-                    "symbol": "saved_after"
-                  },
-                  "val": {
-                    "i128": "256"
-                  }
-                }
-              ]
+              "i128": "300"
             }
           }
         }
@@ -1158,7 +1105,7 @@
                     "symbol": "amount"
                   },
                   "val": {
-                    "i128": "777"
+                    "i128": "300"
                   }
                 },
                 {
@@ -1166,7 +1113,7 @@
                     "symbol": "payout"
                   },
                   "val": {
-                    "i128": "521"
+                    "i128": "300"
                   }
                 },
                 {
@@ -1174,7 +1121,7 @@
                     "symbol": "saved"
                   },
                   "val": {
-                    "i128": "256"
+                    "i128": "0"
                   }
                 }
               ]

@@ -1,17 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useWallet } from "@/lib/wallet";
 import { useAccountData, useVaultTotals } from "@/lib/hooks";
-import { setRule, withdrawSavings, withdrawAllSavings } from "@/lib/actions";
+import { withdrawSavings, withdrawAllSavings } from "@/lib/actions";
 import { humanizeError } from "@/lib/contracts";
-import { fromBaseUnits, toBaseUnits, money, bpsToPercent } from "@/lib/format";
+import { fromBaseUnits, toBaseUnits, money } from "@/lib/format";
 import { track } from "@/lib/analytics";
 import { useToast } from "./Toast";
 import { FaucetButton } from "./FaucetButton";
+import { GoalsBoard } from "./GoalsBoard";
 import { Stat, Skeleton, SectionTitle } from "./ui";
-
-const PRESETS = [0, 1000, 2000, 3000, 5000]; // basis points
 
 export function DashboardPanel() {
   const { address, signer, connect } = useWallet();
@@ -70,21 +69,23 @@ export function DashboardPanel() {
         )}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-2">
-        <RuleConfig
-          currentBps={data?.rule.save_bps ?? 0}
-          disabled={!signer}
-          onSaved={refresh}
-        />
-        <WithdrawCard
-          savings={savings}
-          disabled={!signer}
-          onDone={() => {
-            refresh();
-            refreshVault();
-          }}
-        />
-      </div>
+      <GoalsBoard
+        goals={data?.goals ?? []}
+        loading={loading && !data}
+        onChange={() => {
+          refresh();
+          refreshVault();
+        }}
+      />
+
+      <WithdrawCard
+        savings={savings}
+        disabled={!signer}
+        onDone={() => {
+          refresh();
+          refreshVault();
+        }}
+      />
 
       {/* Lifetime stats */}
       <div>
@@ -117,97 +118,6 @@ export function DashboardPanel() {
 
   // toast is referenced by children via closures; keep lint happy
   void toast;
-}
-
-function RuleConfig({
-  currentBps,
-  disabled,
-  onSaved,
-}: {
-  currentBps: number;
-  disabled: boolean;
-  onSaved: () => void;
-}) {
-  const { signer } = useWallet();
-  const toast = useToast();
-  const [bps, setBps] = useState(currentBps);
-  const [saving, setSaving] = useState(false);
-
-  useEffect(() => setBps(currentBps), [currentBps]);
-
-  const dirty = bps !== currentBps;
-
-  async function save() {
-    if (!signer) return;
-    setSaving(true);
-    try {
-      const { txHash } = await setRule(signer, bps);
-      track("rule_updated", { save_bps: bps, txHash });
-      toast.success(`Savings rule set to ${bpsToPercent(bps)}`, txHash);
-      onSaved();
-    } catch (e) {
-      toast.error(humanizeError(e));
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  return (
-    <div className="card p-5">
-      <SectionTitle hint={`now: ${bpsToPercent(currentBps)}`}>
-        Auto-save rule
-      </SectionTitle>
-      <p className="mb-4 text-sm text-slate-400">
-        Choose how much of every incoming remittance is routed into your yield
-        vault. The rest is available to cash out immediately.
-      </p>
-
-      <div className="mb-4 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-5xl font-black tabular-nums text-brand-300">
-            {bpsToPercent(bps)}
-          </div>
-          <div className="text-xs text-slate-500">saved per transfer</div>
-        </div>
-      </div>
-
-      <input
-        type="range"
-        min={0}
-        max={10000}
-        step={500}
-        value={bps}
-        onChange={(e) => setBps(Number(e.target.value))}
-        className="w-full accent-brand-500"
-        disabled={disabled}
-      />
-
-      <div className="mt-3 flex flex-wrap gap-2">
-        {PRESETS.map((p) => (
-          <button
-            key={p}
-            onClick={() => setBps(p)}
-            disabled={disabled}
-            className={`rounded-lg border px-3 py-1.5 text-xs font-medium transition ${
-              bps === p
-                ? "border-brand-400/60 bg-brand-500/15 text-brand-100"
-                : "border-white/10 bg-white/5 text-slate-300 hover:bg-white/10"
-            }`}
-          >
-            {bpsToPercent(p)}
-          </button>
-        ))}
-      </div>
-
-      <button
-        onClick={save}
-        disabled={disabled || !dirty || saving}
-        className="btn-primary mt-4 w-full"
-      >
-        {saving ? "Saving…" : dirty ? "Update rule" : "Saved"}
-      </button>
-    </div>
-  );
 }
 
 function WithdrawCard({
