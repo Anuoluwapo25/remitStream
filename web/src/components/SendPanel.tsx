@@ -281,7 +281,7 @@ function SplitPreview({
   return (
     <div className="mt-4 rounded-xl border border-white/10 bg-ink-900/50 p-4">
       <div className="mb-2 flex items-center justify-between text-xs text-stone-400">
-        <span>How this splits for the recipient</span>
+        <span>What the person receiving gets</span>
         {quoting && <span className="text-stone-500">updating…</span>}
       </div>
       <div className="flex h-2.5 overflow-hidden rounded-full bg-white/5">
@@ -335,10 +335,23 @@ function SplitPreview({
       )}
 
       {quote && quote.saved === 0n && (
-        <p className="mt-2 text-xs text-stone-500">
-          This recipient hasn&apos;t set up any savings goals, so the full amount
-          is cashed out.
-        </p>
+        <div className="mt-3 rounded-lg border border-ink-700 bg-ink-900/60 p-3 text-xs leading-relaxed text-stone-400">
+          <p className="font-medium text-stone-200">
+            The full amount lands in their wallet.
+          </p>
+          <p className="mt-1">
+            Auto-save is set by whoever <em>receives</em> the money, on their own
+            dashboard. You can&apos;t set it from here, and nothing is missing —
+            the transfer still goes through.
+          </p>
+          <p className="mt-1">
+            Saving from money sent to <em>you</em>?{" "}
+            <Link href="/dashboard" className="text-brand-300 hover:underline">
+              Set up a goal on your dashboard
+            </Link>
+            .
+          </p>
+        </div>
       )}
     </div>
   );
