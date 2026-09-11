@@ -335,22 +335,34 @@ function SplitPreview({
       )}
 
       {quote && quote.saved === 0n && (
-        <div className="mt-3 rounded-lg border border-ink-700 bg-ink-900/60 p-3 text-xs leading-relaxed text-stone-400">
-          <p className="font-medium text-stone-200">
-            The full amount lands in their wallet.
-          </p>
-          <p className="mt-1">
-            Auto-save is set by whoever <em>receives</em> the money, on their own
-            dashboard. You can&apos;t set it from here, and nothing is missing —
-            the transfer still goes through.
-          </p>
-          <p className="mt-1">
-            Saving from money sent to <em>you</em>?{" "}
-            <Link href="/dashboard" className="text-brand-300 hover:underline">
-              Set up a goal on your dashboard
-            </Link>
-            .
-          </p>
+        <div
+          role="status"
+          className="mt-3 flex gap-3 rounded-lg border-2 border-brand-400/50 bg-brand-500/10 p-3.5"
+        >
+          <span
+            aria-hidden
+            className="grid h-6 w-6 flex-none place-items-center rounded-full bg-brand-300 text-sm font-bold text-ink-900"
+          >
+            i
+          </span>
+          <div className="text-sm leading-relaxed">
+            <p className="font-semibold text-brand-200">
+              The full amount lands in their wallet — nothing is missing.
+            </p>
+            <p className="mt-1 text-stone-200">
+              Auto-save is set by whoever <strong>receives</strong> the money,
+              on their own dashboard. You can&apos;t set it from here.
+            </p>
+            <p className="mt-1.5 text-stone-200">
+              Saving from money sent to <strong>you</strong>?{" "}
+              <Link
+                href="/dashboard"
+                className="font-semibold text-brand-300 underline underline-offset-2 hover:text-brand-200"
+              >
+                Set up a goal on your dashboard →
+              </Link>
+            </p>
+          </div>
         </div>
       )}
     </div>

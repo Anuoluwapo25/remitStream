@@ -17,6 +17,18 @@ type AccountState = {
   refresh: () => void;
 };
 
+/**
+ * RPC nodes stop being polled the instant they report a submitted
+ * transaction as landed, but a `simulateTransaction`-based read fired right
+ * after can hit a different (or just-behind) node that hasn't caught up yet
+ * — confirmed against `signAndSend`'s own polling, which only waits for
+ * `getTransaction` to stop returning NOT_FOUND, not for reads to agree with
+ * it. That's why a balance can still look stale immediately after a claim,
+ * send, or rule change even though the action genuinely succeeded. A couple
+ * of quiet follow-up reads catch it up without a second loading flicker.
+ */
+const CATCH_UP_DELAYS_MS = [1200, 3000];
+
 /** Loads a user's wallet balance, savings, rule, and stats; refreshes on demand. */
 export function useAccountData(address: string | null): AccountState {
   const [data, setData] = useState<AccountData | null>(null);
@@ -32,19 +44,28 @@ export function useAccountData(address: string | null): AccountState {
     const id = ++reqId.current;
     setLoading(true);
     setError(null);
-    getAccountData(address)
-      .then((d) => {
-        if (id === reqId.current) setData(d);
-      })
-      .catch((e) => {
-        if (id === reqId.current) {
-          setError("Couldn't load your account data.");
-          logError(e, { where: "useAccountData" });
-        }
-      })
-      .finally(() => {
-        if (id === reqId.current) setLoading(false);
-      });
+
+    const load = (quiet: boolean) =>
+      getAccountData(address)
+        .then((d) => {
+          if (id === reqId.current) setData(d);
+        })
+        .catch((e) => {
+          if (id === reqId.current && !quiet) {
+            setError("Couldn't load your account data.");
+            logError(e, { where: "useAccountData" });
+          }
+        });
+
+    load(false).finally(() => {
+      if (id === reqId.current) setLoading(false);
+    });
+
+    for (const delay of CATCH_UP_DELAYS_MS) {
+      setTimeout(() => {
+        if (id === reqId.current) load(true);
+      }, delay);
+    }
   }, [address]);
 
   useEffect(() => {
@@ -63,9 +84,15 @@ export function useVaultTotals(): {
   const [totals, setTotals] = useState<VaultTotals | null>(null);
 
   const refresh = useCallback(() => {
-    getVaultTotals()
-      .then(setTotals)
-      .catch((e) => logError(e, { where: "useVaultTotals" }));
+    const load = () =>
+      getVaultTotals()
+        .then(setTotals)
+        .catch((e) => logError(e, { where: "useVaultTotals" }));
+    load();
+    // See the comment on CATCH_UP_DELAYS_MS above `useAccountData`.
+    for (const delay of CATCH_UP_DELAYS_MS) {
+      setTimeout(load, delay);
+    }
   }, []);
 
   useEffect(() => {
