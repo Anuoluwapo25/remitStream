@@ -2,6 +2,7 @@
 // parsed result. No wallet or signature required.
 
 import { tokenClient, vaultClient, routerClient } from "./contracts";
+import { logError } from "./analytics";
 
 export type GoalStatus = "Active" | "Reached" | "Archived";
 
@@ -129,13 +130,40 @@ export async function getStats(address: string): Promise<AccountData["stats"]> {
   };
 }
 
+/**
+ * Runs one read, falling back to a default and logging rather than letting
+ * its failure take the rest of the account view down with it.
+ *
+ * This is what `get_goals` needs right now: the goals feature's bindings are
+ * built against the *new* router contract, and the one actually deployed on
+ * testnet today is the pre-goals version, which genuinely has no such
+ * function (`"trying to invoke non-existent contract function", get_goals`,
+ * confirmed by simulating the call directly). Before this fallback existed,
+ * that one rejected promise inside `Promise.all` took wallet balance, rule,
+ * and stats down with it — every field showed as zero, not just goals, for
+ * every address, which is exactly why a balance that is genuinely nonzero
+ * on-chain rendered as 0 in the app.
+ */
+async function safe<T>(promise: Promise<T>, fallback: T, where: string): Promise<T> {
+  try {
+    return await promise;
+  } catch (e) {
+    logError(e, { where });
+    return fallback;
+  }
+}
+
 export async function getAccountData(address: string): Promise<AccountData> {
   const [walletBalance, savings, rule, goals, stats] = await Promise.all([
-    getWalletBalance(address),
-    getSavings(address),
-    getRule(address),
-    getGoals(address),
-    getStats(address),
+    safe(getWalletBalance(address), 0n, "getAccountData.walletBalance"),
+    safe(getSavings(address), 0n, "getAccountData.savings"),
+    safe(getRule(address), { enabled: false, save_bps: 0 }, "getAccountData.rule"),
+    safe(getGoals(address), [] as Goal[], "getAccountData.goals"),
+    safe(
+      getStats(address),
+      { total_received: 0n, total_saved: 0n, transfers: 0 },
+      "getAccountData.stats",
+    ),
   ]);
   return { walletBalance, savings, rule, goals, stats };
 }
