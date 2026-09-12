@@ -39,7 +39,7 @@ export function FaucetButton({
       );
       onDone?.();
     } catch (e) {
-      toast.error(humanizeError(e));
+      toast.error(humanizeError(e, "token"));
     } finally {
       setStage("idle");
     }

@@ -158,7 +158,7 @@ function GoalCard({
       toast.success(`${goal.name}: ${pct(bps)} of each transfer`, txHash);
       onChange();
     } catch (e) {
-      toast.error(humanizeError(e));
+      toast.error(humanizeError(e, "router"));
       setBps(goal.allocationBps);
     } finally {
       setBusy(false);
@@ -178,7 +178,7 @@ function GoalCard({
       toast.success("Priority updated", txHash);
       onChange();
     } catch (e) {
-      toast.error(humanizeError(e));
+      toast.error(humanizeError(e, "router"));
     } finally {
       setBusy(false);
     }
@@ -193,7 +193,7 @@ function GoalCard({
       toast.success(`Archived "${goal.name}"`, txHash);
       onChange();
     } catch (e) {
-      toast.error(humanizeError(e));
+      toast.error(humanizeError(e, "router"));
     } finally {
       setBusy(false);
     }
@@ -334,7 +334,7 @@ function GoalEditForm({
       toast.success(`Updated "${name.trim()}"`, txHash);
       onSaved();
     } catch (e) {
-      toast.error(humanizeError(e));
+      toast.error(humanizeError(e, "router"));
     } finally {
       setBusy(false);
     }
@@ -420,7 +420,7 @@ function NewGoalForm({
       setOpen(false);
       onCreated();
     } catch (e) {
-      toast.error(humanizeError(e));
+      toast.error(humanizeError(e, "router"));
     } finally {
       setBusy(false);
     }

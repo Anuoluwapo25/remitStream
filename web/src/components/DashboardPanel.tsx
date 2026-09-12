@@ -153,7 +153,7 @@ function WithdrawCard({
       setAmount("");
       onDone();
     } catch (e) {
-      toast.error(humanizeError(e));
+      toast.error(humanizeError(e, "vault"));
     } finally {
       setBusy(false);
     }

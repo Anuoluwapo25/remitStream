@@ -114,7 +114,7 @@ export function SendPanel() {
       setPlan([]);
       refresh();
     } catch (e) {
-      toast.error(humanizeError(e));
+      toast.error(humanizeError(e, "router"));
     } finally {
       setSending(false);
     }
