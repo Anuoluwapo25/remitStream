@@ -32,6 +32,11 @@ export const config = {
     router:
       process.env.NEXT_PUBLIC_ROUTER_ID ??
       "CAUHITYG2QOBX25HBP5NSGV4YJGJWIKFU5RAKIB5YC7IU6ZPBPUHFY4L",
+    // Unset until deployed — no hardcoded fallback, unlike the other three.
+    // Claim links are a real, tested contract (see contracts/claim-link) that
+    // just hasn't been pushed to testnet yet. The UI hides the feature
+    // entirely rather than pointing at a contract that doesn't exist.
+    claims: process.env.NEXT_PUBLIC_CLAIMS_ID ?? "",
   },
   // Display code for the settlement asset.
   //
@@ -44,6 +49,10 @@ export const config = {
   // The testnet token ships a faucet so pilot testers can get funds in one tap.
   // A real asset has no such thing, so the faucet UI hides itself.
   faucetEnabled: process.env.NEXT_PUBLIC_FAUCET_ENABLED !== "false",
+  // True once a claim-link contract address is configured.
+  get claimLinksEnabled() {
+    return this.contracts.claims.length > 0;
+  },
   explorerBase:
     process.env.NEXT_PUBLIC_EXPLORER_BASE ??
     "https://stellar.expert/explorer/testnet",

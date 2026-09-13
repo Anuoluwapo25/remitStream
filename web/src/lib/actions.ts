@@ -7,8 +7,10 @@
 // is the only thing that makes that link possible, so it is part of every
 // action's contract rather than an afterthought at one call site.
 
-import { tokenClient, vaultClient, routerClient, type Signer } from "./contracts";
+import { Buffer } from "buffer";
+import { tokenClient, vaultClient, routerClient, claimsClient, type Signer } from "./contracts";
 import { ensureAccountFunded } from "./friendbot";
+import { generateSecret, claimLinkUrl } from "./claimLinks";
 import type { Split } from "./reads";
 
 /** A submitted transaction: the contract's return value, plus its ledger hash. */
@@ -188,5 +190,58 @@ export async function withdrawAllSavings(
   signer: Signer,
 ): Promise<Submitted<null>> {
   const tx = await vaultClient(signer).withdraw_all({ user: signer.publicKey });
+  return submit(tx);
+}
+
+/**
+ * Lock `amount` behind a fresh random secret and return a shareable link.
+ * No recipient address needed — see contracts/claim-link. `expiresAt` is a
+ * unix timestamp (seconds); omit or pass 0 for a link that never expires
+ * (and so can never be taken back either).
+ */
+export async function createClaimLink(
+  signer: Signer,
+  params: { amount: bigint; note?: string; expiresAt?: number },
+): Promise<Submitted<{ claimId: bigint; url: string }>> {
+  const { secret, hash } = await generateSecret();
+  const tx = await claimsClient(signer).create_claim({
+    sender: signer.publicKey,
+    amount: params.amount,
+    secret_hash: hash,
+    expires_at: BigInt(params.expiresAt ?? 0),
+    note: params.note ?? "",
+  });
+  const { result, txHash } = await submit<bigint>(tx);
+  const claimId = BigInt(result);
+  return { result: { claimId, url: claimLinkUrl(claimId, secret) }, txHash };
+}
+
+/**
+ * Redeem a claim link into `to`'s wallet. `secret` is whatever came out of
+ * the link's URL fragment (see claimLinks.ts). `signer` only pays the network
+ * fee and submits the transaction — the contract requires no authorization
+ * from `to` at all; producing the right secret is the authorization.
+ */
+export async function redeemClaim(
+  signer: Signer,
+  claimId: bigint,
+  secret: Uint8Array,
+  to: string,
+): Promise<Submitted<bigint>> {
+  const tx = await claimsClient(signer).claim({
+    claim_id: claimId,
+    secret: Buffer.from(secret),
+    to,
+  });
+  const { result, txHash } = await submit<bigint>(tx);
+  return { result: BigInt(result), txHash };
+}
+
+/** Sender takes back an unclaimed claim after its deadline has passed. */
+export async function reclaimClaimLink(
+  signer: Signer,
+  claimId: bigint,
+): Promise<Submitted<null>> {
+  const tx = await claimsClient(signer).reclaim({ claim_id: claimId });
   return submit(tx);
 }

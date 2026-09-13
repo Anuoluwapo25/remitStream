@@ -1,7 +1,7 @@
 // Read-only, on-chain views. Each runs a simulation via the RPC and returns the
 // parsed result. No wallet or signature required.
 
-import { tokenClient, vaultClient, routerClient } from "./contracts";
+import { tokenClient, vaultClient, routerClient, claimsClient } from "./contracts";
 import { logError } from "./analytics";
 
 export type GoalStatus = "Active" | "Reached" | "Archived";
@@ -166,6 +166,37 @@ export async function getAccountData(address: string): Promise<AccountData> {
     ),
   ]);
   return { walletBalance, savings, rule, goals, stats };
+}
+
+export type ClaimStatus = "Pending" | "Claimed" | "Reclaimed";
+
+export type ClaimPreview = {
+  sender: string;
+  amount: bigint;
+  expiresAt: number;
+  note: string;
+  status: ClaimStatus;
+};
+
+function claimStatusTag(status: unknown): ClaimStatus {
+  const tag =
+    status && typeof status === "object" && "tag" in status
+      ? String((status as { tag: unknown }).tag)
+      : String(status ?? "Pending");
+  return tag === "Claimed" || tag === "Reclaimed" ? tag : "Pending";
+}
+
+/** Preview a claim link before redeeming it. Works with no wallet connected. */
+export async function getClaimPreview(claimId: bigint): Promise<ClaimPreview> {
+  const tx = await claimsClient().get_claim({ claim_id: claimId });
+  const c = tx.result;
+  return {
+    sender: c.sender,
+    amount: BigInt(c.amount ?? 0),
+    expiresAt: Number(c.expires_at ?? 0),
+    note: c.note ?? "",
+    status: claimStatusTag(c.status),
+  };
 }
 
 export async function quoteSplit(

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SendPanel } from "@/components/SendPanel";
+import { SendTabs } from "@/components/SendTabs";
 import { HeroCta } from "@/components/HeroCta";
 import { SlidersIcon, SendIcon, VaultIcon } from "@/components/icons";
 
@@ -57,7 +57,7 @@ export default function HomePage() {
         </section>
 
         <section id="send" className="scroll-mt-24 lg:sticky lg:top-20">
-          <SendPanel />
+          <SendTabs />
         </section>
       </div>
 

@@ -7,6 +7,7 @@
 import { Client as TokenClient, Errors as TokenErrors } from "@/bindings/token";
 import { Client as VaultClient, Errors as VaultErrors } from "@/bindings/vault";
 import { Client as RouterClient, Errors as RouterErrors } from "@/bindings/router";
+import { Client as ClaimsClient, Errors as ClaimsErrors } from "@/bindings/claims";
 import { config } from "./config";
 
 export type Signer = {
@@ -41,6 +42,15 @@ export function vaultClient(signer?: Signer): VaultClient {
 
 export function routerClient(signer?: Signer): RouterClient {
   return new RouterClient(baseOptions(config.contracts.router, signer));
+}
+
+/** Throws if claim links aren't deployed on this environment yet — check
+ * `config.claimLinksEnabled` before calling anything that needs this. */
+export function claimsClient(signer?: Signer): ClaimsClient {
+  if (!config.claimLinksEnabled) {
+    throw new Error("Claim links aren't available on this deployment yet.");
+  }
+  return new ClaimsClient(baseOptions(config.contracts.claims, signer));
 }
 
 /**
@@ -80,18 +90,26 @@ const ERROR_SENTENCES: Record<string, string> = {
   RouterNotSet: "The vault isn't linked to a router yet.",
   YieldPoolNotSet: "No yield pool is configured yet.",
   YieldPoolFunded: "Move funds out of the current yield pool before switching to another.",
+  // claim-link
+  ClaimNotFound: "That claim link doesn't exist — check you copied the whole link.",
+  WrongSecret: "That claim code doesn't match this link. Copy the whole link again.",
+  AlreadyResolved: "This claim was already redeemed or taken back — it can't be used again.",
+  Expired: "This claim link has expired.",
+  NotExpired: "This claim hasn't expired yet, so it can't be taken back.",
+  NoteTooLong: "That note is too long (140 characters max).",
 };
 
 const CONTRACT_ERROR_PATTERN = /Error\(Contract, #(\d+)\)/;
 
 /** Which contract a call was against, so the right numeric table is used —
- * error code 7 means something different in each of the three contracts. */
-export type ContractName = "token" | "vault" | "router";
+ * error code 7 means something different in each of these contracts. */
+export type ContractName = "token" | "vault" | "router" | "claims";
 
 const ERROR_TABLES: Record<ContractName, Record<number, { message: string }>> = {
   token: TokenErrors,
   vault: VaultErrors,
   router: RouterErrors,
+  claims: ClaimsErrors,
 };
 
 /**

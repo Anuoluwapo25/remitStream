@@ -6,7 +6,15 @@
 #   ./scripts/deploy.sh [network] [identity]
 #
 # Writes the resulting addresses to deployments.json, which the web app reads
-# at build time. Re-running deploys a fresh set of contracts.
+# at build time. Re-running deploys a fresh set of contracts — every existing
+# balance and vault deposit goes with it, since the token contract is new too.
+#
+# To ship a router change (e.g. the savings-goals rewrite) onto an existing
+# pilot without resetting anyone's balance, use upgrade-router.sh instead —
+# it deploys only the router and re-wires the existing vault to it.
+# To turn on claim links against an existing deployment, use
+# deploy-claim-link.sh — it's a new, independent contract, so it never
+# touches token, vault, or router.
 
 set -euo pipefail
 
@@ -31,7 +39,7 @@ fi
 ADMIN="$(stellar keys address "$IDENTITY")"
 info "admin: $ADMIN"
 
-bold "[1/5] Building contracts"
+bold "[1/6] Building contracts"
 (cd "$CONTRACTS" && stellar contract build >/dev/null 2>&1)
 info "ok"
 
@@ -54,27 +62,33 @@ invoke() {
     -- "$@" >/dev/null 2>&1
 }
 
-bold "[2/5] Deploying rUSDC token"
+bold "[2/6] Deploying rUSDC token"
 TOKEN_ID="$(deploy remit_token)"
 info "$TOKEN_ID"
 invoke "$TOKEN_ID" initialize --admin "$ADMIN"
 info "initialized"
 
-bold "[3/5] Deploying SavingsVault"
+bold "[3/6] Deploying SavingsVault"
 VAULT_ID="$(deploy savings_vault)"
 info "$VAULT_ID"
 invoke "$VAULT_ID" initialize --admin "$ADMIN" --token "$TOKEN_ID"
 info "initialized"
 
-bold "[4/5] Deploying AutoSplitRouter"
+bold "[4/6] Deploying AutoSplitRouter"
 ROUTER_ID="$(deploy auto_split_router)"
 info "$ROUTER_ID"
 invoke "$ROUTER_ID" initialize --admin "$ADMIN" --vault "$VAULT_ID" --token "$TOKEN_ID"
 info "initialized"
 
-bold "[5/5] Authorizing router on vault"
+bold "[5/6] Authorizing router on vault"
 invoke "$VAULT_ID" set_router --router "$ROUTER_ID"
 info "ok"
+
+bold "[6/6] Deploying ClaimLink"
+CLAIMS_ID="$(deploy claim_link)"
+info "$CLAIMS_ID"
+invoke "$CLAIMS_ID" initialize --token "$TOKEN_ID"
+info "initialized"
 
 case "$NETWORK" in
   testnet)  PASSPHRASE="Test SDF Network ; September 2015"; RPC="https://soroban-testnet.stellar.org" ;;
@@ -92,7 +106,8 @@ cat > "$OUT" <<JSON
   "contracts": {
     "token": "$TOKEN_ID",
     "vault": "$VAULT_ID",
-    "router": "$ROUTER_ID"
+    "router": "$ROUTER_ID",
+    "claims": "$CLAIMS_ID"
   }
 }
 JSON
