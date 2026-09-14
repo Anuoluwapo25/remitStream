@@ -1,7 +1,7 @@
 // Read-only, on-chain views. Each runs a simulation via the RPC and returns the
 // parsed result. No wallet or signature required.
 
-import { tokenClient, vaultClient, routerClient, claimsClient } from "./contracts";
+import { tokenClient, vaultClient, routerClient, claimsClient, circlesClient } from "./contracts";
 import { logError } from "./analytics";
 
 export type GoalStatus = "Active" | "Reached" | "Archived";
@@ -196,6 +196,47 @@ export async function getClaimPreview(claimId: bigint): Promise<ClaimPreview> {
     expiresAt: Number(c.expires_at ?? 0),
     note: c.note ?? "",
     status: claimStatusTag(c.status),
+  };
+}
+
+export type CircleStatus = "Forming" | "Active" | "Completed";
+
+export type CirclePreview = {
+  token: string;
+  name: string;
+  contribution: bigint;
+  roundSeconds: number;
+  size: number;
+  members: string[];
+  currentRound: number;
+  roundStart: number;
+  contributed: boolean[];
+  status: CircleStatus;
+};
+
+function circleStatusTag(status: unknown): CircleStatus {
+  const tag =
+    status && typeof status === "object" && "tag" in status
+      ? String((status as { tag: unknown }).tag)
+      : String(status ?? "Forming");
+  return tag === "Active" || tag === "Completed" ? tag : "Forming";
+}
+
+/** Preview a savings circle. Works with no wallet connected. */
+export async function getCirclePreview(circleId: bigint): Promise<CirclePreview> {
+  const tx = await circlesClient().get_circle({ circle_id: circleId });
+  const c = tx.result;
+  return {
+    token: c.token,
+    name: c.name,
+    contribution: BigInt(c.contribution ?? 0),
+    roundSeconds: Number(c.round_seconds ?? 0),
+    size: Number(c.size ?? 0),
+    members: [...(c.members ?? [])],
+    currentRound: Number(c.current_round ?? 0),
+    roundStart: Number(c.round_start ?? 0),
+    contributed: [...(c.contributed ?? [])],
+    status: circleStatusTag(c.status),
   };
 }
 

@@ -8,6 +8,7 @@ import { Client as TokenClient, Errors as TokenErrors } from "@/bindings/token";
 import { Client as VaultClient, Errors as VaultErrors } from "@/bindings/vault";
 import { Client as RouterClient, Errors as RouterErrors } from "@/bindings/router";
 import { Client as ClaimsClient, Errors as ClaimsErrors } from "@/bindings/claims";
+import { Client as CirclesClient, Errors as CirclesErrors } from "@/bindings/circles";
 import { config } from "./config";
 
 export type Signer = {
@@ -51,6 +52,15 @@ export function claimsClient(signer?: Signer): ClaimsClient {
     throw new Error("Claim links aren't available on this deployment yet.");
   }
   return new ClaimsClient(baseOptions(config.contracts.claims, signer));
+}
+
+/** Throws if savings circles aren't deployed on this environment yet — check
+ * `config.circlesEnabled` before calling anything that needs this. */
+export function circlesClient(signer?: Signer): CirclesClient {
+  if (!config.circlesEnabled) {
+    throw new Error("Savings circles aren't available on this deployment yet.");
+  }
+  return new CirclesClient(baseOptions(config.contracts.circles, signer));
 }
 
 /**
@@ -97,19 +107,32 @@ const ERROR_SENTENCES: Record<string, string> = {
   Expired: "This claim link has expired.",
   NotExpired: "This claim hasn't expired yet, so it can't be taken back.",
   NoteTooLong: "That note is too long (140 characters max).",
+  // savings-circle
+  InvalidSize: "A circle needs between 2 and 12 members.",
+  InvalidRoundLength: "Give each round a length greater than zero.",
+  CircleNotFound: "That circle doesn't exist — check the ID.",
+  CircleFull: "This circle already has all its members.",
+  AlreadyMember: "You're already in this circle.",
+  NotAMember: "You're not a member of this circle.",
+  StillForming: "This circle hasn't filled all its member slots yet.",
+  AlreadyCompleted: "This circle already finished its full cycle.",
+  AlreadyContributed: "You've already paid into this round.",
+  NothingToReclaim: "You haven't paid into the current round.",
+  RoundStillOpen: "This round hasn't been open long enough to reclaim yet.",
 };
 
 const CONTRACT_ERROR_PATTERN = /Error\(Contract, #(\d+)\)/;
 
 /** Which contract a call was against, so the right numeric table is used —
  * error code 7 means something different in each of these contracts. */
-export type ContractName = "token" | "vault" | "router" | "claims";
+export type ContractName = "token" | "vault" | "router" | "claims" | "circles";
 
 const ERROR_TABLES: Record<ContractName, Record<number, { message: string }>> = {
   token: TokenErrors,
   vault: VaultErrors,
   router: RouterErrors,
   claims: ClaimsErrors,
+  circles: CirclesErrors,
 };
 
 /**

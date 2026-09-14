@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["remit-token", "savings-vault", "auto-split-router", "claim-link"]
+members = ["remit-token", "savings-vault", "auto-split-router", "claim-link", "savings-circle"]
 
 [workspace.package]
 version = "0.1.0"

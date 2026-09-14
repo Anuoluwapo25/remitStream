@@ -12,9 +12,9 @@
 # To ship a router change (e.g. the savings-goals rewrite) onto an existing
 # pilot without resetting anyone's balance, use upgrade-router.sh instead —
 # it deploys only the router and re-wires the existing vault to it.
-# To turn on claim links against an existing deployment, use
-# deploy-claim-link.sh — it's a new, independent contract, so it never
-# touches token, vault, or router.
+# To turn on claim links or savings circles against an existing deployment,
+# use deploy-claim-link.sh / deploy-savings-circle.sh — both are new,
+# independent contracts, so neither touches token, vault, or router.
 
 set -euo pipefail
 
@@ -39,7 +39,7 @@ fi
 ADMIN="$(stellar keys address "$IDENTITY")"
 info "admin: $ADMIN"
 
-bold "[1/6] Building contracts"
+bold "[1/7] Building contracts"
 (cd "$CONTRACTS" && stellar contract build >/dev/null 2>&1)
 info "ok"
 
@@ -62,33 +62,38 @@ invoke() {
     -- "$@" >/dev/null 2>&1
 }
 
-bold "[2/6] Deploying rUSDC token"
+bold "[2/7] Deploying rUSDC token"
 TOKEN_ID="$(deploy remit_token)"
 info "$TOKEN_ID"
 invoke "$TOKEN_ID" initialize --admin "$ADMIN"
 info "initialized"
 
-bold "[3/6] Deploying SavingsVault"
+bold "[3/7] Deploying SavingsVault"
 VAULT_ID="$(deploy savings_vault)"
 info "$VAULT_ID"
 invoke "$VAULT_ID" initialize --admin "$ADMIN" --token "$TOKEN_ID"
 info "initialized"
 
-bold "[4/6] Deploying AutoSplitRouter"
+bold "[4/7] Deploying AutoSplitRouter"
 ROUTER_ID="$(deploy auto_split_router)"
 info "$ROUTER_ID"
 invoke "$ROUTER_ID" initialize --admin "$ADMIN" --vault "$VAULT_ID" --token "$TOKEN_ID"
 info "initialized"
 
-bold "[5/6] Authorizing router on vault"
+bold "[5/7] Authorizing router on vault"
 invoke "$VAULT_ID" set_router --router "$ROUTER_ID"
 info "ok"
 
-bold "[6/6] Deploying ClaimLink"
+bold "[6/7] Deploying ClaimLink"
 CLAIMS_ID="$(deploy claim_link)"
 info "$CLAIMS_ID"
 invoke "$CLAIMS_ID" initialize --token "$TOKEN_ID"
 info "initialized"
+
+bold "[7/7] Deploying SavingsCircle"
+CIRCLES_ID="$(deploy savings_circle)"
+info "$CIRCLES_ID"
+info "no initialize() needed — a circle's token is chosen per-circle at creation"
 
 case "$NETWORK" in
   testnet)  PASSPHRASE="Test SDF Network ; September 2015"; RPC="https://soroban-testnet.stellar.org" ;;
@@ -107,7 +112,8 @@ cat > "$OUT" <<JSON
     "token": "$TOKEN_ID",
     "vault": "$VAULT_ID",
     "router": "$ROUTER_ID",
-    "claims": "$CLAIMS_ID"
+    "claims": "$CLAIMS_ID",
+    "circles": "$CIRCLES_ID"
   }
 }
 JSON

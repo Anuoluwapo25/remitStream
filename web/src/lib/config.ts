@@ -37,6 +37,8 @@ export const config = {
     // just hasn't been pushed to testnet yet. The UI hides the feature
     // entirely rather than pointing at a contract that doesn't exist.
     claims: process.env.NEXT_PUBLIC_CLAIMS_ID ?? "",
+    // Same story — see contracts/savings-circle.
+    circles: process.env.NEXT_PUBLIC_CIRCLES_ID ?? "",
   },
   // Display code for the settlement asset.
   //
@@ -52,6 +54,10 @@ export const config = {
   // True once a claim-link contract address is configured.
   get claimLinksEnabled() {
     return this.contracts.claims.length > 0;
+  },
+  // True once a savings-circle contract address is configured.
+  get circlesEnabled() {
+    return this.contracts.circles.length > 0;
   },
   explorerBase:
     process.env.NEXT_PUBLIC_EXPLORER_BASE ??

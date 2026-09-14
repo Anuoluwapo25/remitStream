@@ -8,7 +8,14 @@
 // action's contract rather than an afterthought at one call site.
 
 import { Buffer } from "buffer";
-import { tokenClient, vaultClient, routerClient, claimsClient, type Signer } from "./contracts";
+import {
+  tokenClient,
+  vaultClient,
+  routerClient,
+  claimsClient,
+  circlesClient,
+  type Signer,
+} from "./contracts";
 import { ensureAccountFunded } from "./friendbot";
 import { generateSecret, claimLinkUrl } from "./claimLinks";
 import type { Split } from "./reads";
@@ -243,5 +250,69 @@ export async function reclaimClaimLink(
   claimId: bigint,
 ): Promise<Submitted<null>> {
   const tx = await claimsClient(signer).reclaim({ claim_id: claimId });
+  return submit(tx);
+}
+
+/**
+ * Start a new rotating savings circle. The caller becomes its first member
+ * and gets paid first once it fills. Returns the new circle's id — share it
+ * with whoever you're forming the circle with; they join with `joinCircle`.
+ */
+export async function createCircle(
+  signer: Signer,
+  params: {
+    token: string;
+    name: string;
+    contribution: bigint;
+    roundSeconds: number;
+    size: number;
+  },
+): Promise<Submitted<bigint>> {
+  const tx = await circlesClient(signer).create_circle({
+    creator: signer.publicKey,
+    token: params.token,
+    name: params.name,
+    contribution: params.contribution,
+    round_seconds: BigInt(params.roundSeconds),
+    size: params.size,
+  });
+  const { result, txHash } = await submit<bigint>(tx);
+  return { result: BigInt(result), txHash };
+}
+
+/** Join a forming circle. Filling the last slot starts round 0. */
+export async function joinCircle(
+  signer: Signer,
+  circleId: bigint,
+): Promise<Submitted<null>> {
+  const tx = await circlesClient(signer).join_circle({
+    member: signer.publicKey,
+    circle_id: circleId,
+  });
+  return submit(tx);
+}
+
+/** Pay into the circle's current round. */
+export async function contributeToCircle(
+  signer: Signer,
+  circleId: bigint,
+): Promise<Submitted<null>> {
+  const tx = await circlesClient(signer).contribute({
+    member: signer.publicKey,
+    circle_id: circleId,
+  });
+  return submit(tx);
+}
+
+/** Take back a contribution stuck in a round that's run past its length
+ * with other members still unpaid. */
+export async function reclaimStalledRound(
+  signer: Signer,
+  circleId: bigint,
+): Promise<Submitted<null>> {
+  const tx = await circlesClient(signer).reclaim_stalled_round({
+    member: signer.publicKey,
+    circle_id: circleId,
+  });
   return submit(tx);
 }

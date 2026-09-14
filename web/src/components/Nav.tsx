@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { config } from "@/lib/config";
 import { WalletButton } from "./WalletButton";
 
 const LINKS = [
   { href: "/", label: "Send" },
   { href: "/dashboard", label: "Dashboard" },
+  ...(config.circlesEnabled ? [{ href: "/circles", label: "Circles" }] : []),
   { href: "/history", label: "History" },
   { href: "/insights", label: "Insights" },
 ];
