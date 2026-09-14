@@ -29,16 +29,18 @@ export const config = {
     vault:
       process.env.NEXT_PUBLIC_VAULT_ID ??
       "CCF36HNGIGLQYCZYACJDLKKV42X4U7UXRAEDCOU3MTYYP7HLKOREMO3Y",
+    // The goals-aware router, shipped via upgrade-router.sh. The previous
+    // (pre-goals) router, CAUHITYG2QOBX25HBP5NSGV4YJGJWIKFU5RAKIB5YC7IU6ZPBPUHFY4L,
+    // is still on-chain but is no longer authorized on the vault.
     router:
       process.env.NEXT_PUBLIC_ROUTER_ID ??
-      "CAUHITYG2QOBX25HBP5NSGV4YJGJWIKFU5RAKIB5YC7IU6ZPBPUHFY4L",
-    // Unset until deployed — no hardcoded fallback, unlike the other three.
-    // Claim links are a real, tested contract (see contracts/claim-link) that
-    // just hasn't been pushed to testnet yet. The UI hides the feature
-    // entirely rather than pointing at a contract that doesn't exist.
-    claims: process.env.NEXT_PUBLIC_CLAIMS_ID ?? "",
-    // Same story — see contracts/savings-circle.
-    circles: process.env.NEXT_PUBLIC_CIRCLES_ID ?? "",
+      "CCIY4V2VAJWVV3FATMWEXBWXFZDFXPPGQEPNYKLHLVOW4VLEAI2M7BHJ",
+    claims:
+      process.env.NEXT_PUBLIC_CLAIMS_ID ??
+      "CAQAQIFLQ7MTZHJY33ZXJYDI2MCMX5PGMAG6A2ZRRHXZG7G6SNFHHTYE",
+    circles:
+      process.env.NEXT_PUBLIC_CIRCLES_ID ??
+      "CAF4JEMUJPXPP6Q6FSA3EFZYGFPOVTRB6GL2X2J2R63JUW55BUBMPXXT",
   },
   // Display code for the settlement asset.
   //
